@@ -9,7 +9,7 @@ return array (
   'fasz' => 
   array (
     'username' => 'fasz',
-    'password' => '$2y$10$.Y.2CBzzjsYqiXFV.nKyCuGS6UzdCzJccEqqAmjVK8oDNTIlWK.Lm',
+    'password' => '$2y$10$VarzY4375IOhJd2LnpDO6OywHVTBv0AOknvARvBVZLy7Es2dSm4Cm',
     'is_admin' => false,
   ),
 );
