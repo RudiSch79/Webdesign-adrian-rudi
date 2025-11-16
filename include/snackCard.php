@@ -13,7 +13,7 @@
             alt="Star">
         <h6 class="card-text mb-0 ms-2"><?= $snack['rating'] ?></h6>
     </div>
-    <a href="#" class="btn btn-primary">See more</a>
+    <a href="/Webdesign-adrian-rudi/snackPage.php" class="btn btn-primary">See more</a>
 </div>
 </div>
 
