@@ -18,7 +18,7 @@ $username   =  $isLoggedIn ? $_SESSION['user']['username'] : null;
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
   <div class="container">
 
-    <a class="navbar-brand" href="/index.php">SnackScout</a>
+    <a class="navbar-brand" href="./index.php">SnackScout</a>
 
     <div class="collapse navbar-collapse" id="blogNav">
 
@@ -43,7 +43,7 @@ $username   =  $isLoggedIn ? $_SESSION['user']['username'] : null;
 
         <?php else: ?>
         <li class="nav-item dropdown">
-            <a class="btn btn-outline-light dropdown-toggle" href="./index.php" data-bs-toggle="dropdown">
+            <a class="btn btn-outline-light dropdown-toggle" href="#" data-bs-toggle="dropdown">
                 <?= htmlspecialchars($username) ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
