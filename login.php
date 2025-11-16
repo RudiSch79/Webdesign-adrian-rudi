@@ -1,4 +1,4 @@
-<?php include "../include/header.php"; ?>
+<?php include "include/header.php"; ?>
 <body class="d-flex flex-column min-vh-100">
 <main class="flex-grow-1 d-flex justify-content-center align-items-center">
     <div class="w-100" style="max-width: 420px;">
@@ -24,4 +24,4 @@
     </div>
 </main>
 
-<?php include "../include/footer.php"; ?>
+<?php include "include/footer.php"; ?>
