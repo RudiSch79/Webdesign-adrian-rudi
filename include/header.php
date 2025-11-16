@@ -35,15 +35,15 @@ $username   =  $isLoggedIn ? $_SESSION['user']['username'] : null;
 
         <?php if (!$isLoggedIn): ?>
         <li class="nav-item">
-            <a class="btn btn-outline-light me-lg-2" href="/login.php">Login</a>
+            <a class="btn btn-outline-light me-lg-2" href="./login.php">Login</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-warning text-dark" href="/register.php">Register</a>
+            <a class="btn btn-warning text-dark" href="./register.php">Register</a>
         </li> 
 
         <?php else: ?>
         <li class="nav-item dropdown">
-            <a class="btn btn-outline-light dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <a class="btn btn-outline-light dropdown-toggle" href="./index.php" data-bs-toggle="dropdown">
                 <?= htmlspecialchars($username) ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
