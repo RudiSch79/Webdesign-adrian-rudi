@@ -21,10 +21,10 @@ return array (
   2 => 
   array (
     'id' => 3,
-    'name' => 'asd',
-    'brand' => 'a',
-    'category' => 'a',
+    'name' => 'Test',
+    'brand' => 'sdf',
+    'category' => 'sdf',
     'rating' => 0,
-    'image' => '',
+    'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691c6e94dc478.png',
   ),
 );
