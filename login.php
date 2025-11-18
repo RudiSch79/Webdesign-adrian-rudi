@@ -1,6 +1,6 @@
 <?php include "include/header.php";
 
-$users = include "include/users.php";
+$users = include "data/users.php";
 
 $error = "";
 
@@ -16,7 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "Invalid username or password";
     }
     else {
-        $_SESSION["username"] = $username;
+        $_SESSION["user"] = [
+            "username" => $username,
+            "is_admin" => $users[$username]["is_admin"] ?? false
+        ];
         header("Location: index.php");
         exit;
     }
