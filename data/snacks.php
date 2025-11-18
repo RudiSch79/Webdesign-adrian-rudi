@@ -18,13 +18,4 @@ return array (
     'rating' => 9,
     'image' => '/Webdesign-adrian-rudi/data/snackImages/dorrito-cool-ranch.png',
   ),
-  2 => 
-  array (
-    'id' => 3,
-    'name' => 'Test',
-    'brand' => 'sdf',
-    'category' => 'sdf',
-    'rating' => 0,
-    'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691c6e94dc478.png',
-  ),
 );
