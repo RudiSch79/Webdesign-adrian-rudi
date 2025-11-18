@@ -25,6 +25,6 @@ include 'include/header.php';
 
 
 <?php
-include 'include/snackCardRow.php';
+include 'include/snackCardsTopRated.php';
 include 'include/footer.php';
 ?>
