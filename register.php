@@ -22,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "username" => $username,
             "password" => password_hash($password, PASSWORD_DEFAULT),
             "is_admin" => false
+            "profile_picture" = "images/profilepictures/default-profile-picture.png"
         ];
 
         $code = "<?php\nreturn " . var_export($users, true) . ";";

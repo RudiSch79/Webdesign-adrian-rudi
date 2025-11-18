@@ -47,7 +47,7 @@ $username   =  $isLoggedIn ? $_SESSION['user']['username'] : null;
                 <?= htmlspecialchars($username) ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
+                <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-danger" href="./logout.php">Logout</a></li>
             </ul>
