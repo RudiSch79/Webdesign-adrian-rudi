@@ -2,10 +2,12 @@
 <div class="d-flex justify-content-center">
     <div class="container-lg row row-2 justify-content-center">
         <?php
-        $snack = include 'data/snacks/doritoCoolRanch.php';
+        $snacks = include 'data/snacks.php';
+
+        $snack = $snacks[0];
         include 'snackCard.php';
 
-        $snack = include 'data/snacks/doritoNachoChesse.php';
+        $snack = $snacks[1];
         include 'snackCard.php';
         ?>
     </div>
