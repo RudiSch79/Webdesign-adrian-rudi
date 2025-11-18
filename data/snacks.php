@@ -18,4 +18,40 @@ return array (
     'rating' => 9,
     'image' => '/Webdesign-adrian-rudi/data/snackImages/dorrito-cool-ranch.png',
   ),
+  2 => 
+  array (
+    'id' => 3,
+    'name' => 'Poppin Jalapeno',
+    'brand' => 'Doritos',
+    'category' => 'Chips',
+    'rating' => 0,
+    'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691ca6c960844.png',
+  ),
+  3 => 
+  array (
+    'id' => 4,
+    'name' => 'Spicy Nacho',
+    'brand' => 'Doritos',
+    'category' => 'Chips',
+    'rating' => 0,
+    'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691ca701ca346.jpg',
+  ),
+  4 => 
+  array (
+    'id' => 5,
+    'name' => 'Classic Ketchup',
+    'brand' => 'Doritos',
+    'category' => 'Chips',
+    'rating' => 0,
+    'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691ca71f492ef.jpg',
+  ),
+  5 => 
+  array (
+    'id' => 6,
+    'name' => 'Sweet Chilli',
+    'brand' => 'Doritos',
+    'category' => 'Chips',
+    'rating' => 0,
+    'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691ca741a0074.jpg',
+  ),
 );
