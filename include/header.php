@@ -10,6 +10,7 @@ $username   =  $isLoggedIn ? $_SESSION['user']['username'] : null;
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="./data/images/logoNoText.ico" type="image/ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SnackScout</title>
@@ -17,7 +18,6 @@ $username   =  $isLoggedIn ? $_SESSION['user']['username'] : null;
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
   <div class="container">
-
     <a class="navbar-brand" href="./index.php">SnackScout</a>
 
     <div class="collapse navbar-collapse" id="blogNav">

@@ -2,7 +2,7 @@
     <h1>Top Rated</h1>
     <div class="container-lg row justify-content-center">
         <?php
-            $snacks = include './data/snacks.php';
+            $snacks = include './data/snacksArray.php';
 
             // Sort by rating in descending order
             usort($snacks, function($a, $b) {

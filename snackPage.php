@@ -5,7 +5,7 @@ include 'include/header.php';
 <body class="d-flex flex-column">
     <div class="container-fluid row my-5">
         <div class="col-5">
-            <img src="data/snackImages/Doritos-Tortilla-Chips-Nacho-Cheese-Flavored-Snack-Chips-2-75-oz-Bag_c6a6c39d-c8b5-4478-beba-35e7f14e8171.26c8df2fae95aeb86bc07a3c81489399.avif" class="card-img-top img-fluid" alt="...">
+            <img src="data/snackImages/Doritos-Tortilla-Chips-Nacho-Cheese-Flavored-Snack-Chips-2-75-oz-Bag_c6a6c39d-c8b5-4478-beba-35e7f14e8171.26c8df2fae95aeb86bc07a3c81489399.avif" class="img-fluid" alt="...">
         </div>
 
         <div class="col pt-5">

@@ -18,20 +18,16 @@ include 'include/header.php';
     unset($_SESSION['success']); 
 endif; ?>
 
-<div class="d-flex justify-content-center">
+<div class="d-flex flex-column align-items-center">
     <div class="container-lg row row-2 justify-content-center">
         <?php
-        $snacks = include __DIR__ . '/data/snacks.php';
-
-        // Loop through all snacks
+        $snacks = include __DIR__ . '/data/snacksArray.php';
         foreach ($snacks as $snack) {
             include 'include/snackCard.php';
         }
-
         ?>
     </div>
 </div>
-
 
 <div class="mx-auto mt-4">
     <?php

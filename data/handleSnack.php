@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$snacksFile = 'snacks.php';
+$snacksFile = 'snacksArray.php';
 $snacks = include $snacksFile;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
