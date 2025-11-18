@@ -5,7 +5,13 @@ return array (
     'username' => 'admin',
     'password' => '$2y$10$.Sw2hhuFdg2zjnMoONLnY.yrrPxibBU8EGqu91UYIWdNb9KaPU9g.',
     'is_admin' => true,
-    'profile_picture' => 'images/profilepictures/defaulz-profile-picture.png'
+    'profile_picture' => 'images/profilepictures/defaulz-profile-picture.png',
   ),
-
+  'test' => 
+  array (
+    'username' => 'test',
+    'password' => '$2y$10$efn.3e/nyZGh9vaVhTGj5u5rUlwVIAd9sISIozwrP/XFi0dZEeN3m',
+    'is_admin' => false,
+    'profile_picture' => 'images/profilepictures/default-profile-picture.png',
+  ),
 );
