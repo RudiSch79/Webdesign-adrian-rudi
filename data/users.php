@@ -7,11 +7,11 @@ return array (
     'is_admin' => true,
     'profile_picture' => 'images/profilePicPlaceholder.png',
   ),
-  'test' => 
+  'TheThinker' => 
   array (
     'username' => 'test',
     'password' => '$2y$10$efn.3e/nyZGh9vaVhTGj5u5rUlwVIAd9sISIozwrP/XFi0dZEeN3m',
     'is_admin' => false,
-    'profile_picture' => 'data/images/profilePicUploads/test_1763492197_images.jpeg',
+    'profile_picture' => 'data/images/profilePicUploads/test_1763493536_images.jpeg',
   ),
 );

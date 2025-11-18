@@ -20,10 +20,10 @@ include 'include/header.php';
 
     <div class="text-center mb-5">
         <a href="forum.php" class="btn btn-dark btn-lg mx-3 px-4">Forum</a>
-        <a href="reviews.php" class="btn btn-dark btn-lg mx-3 px-4">Reviews</a>
+        <a href="snacks.php" class="btn btn-dark btn-lg mx-3 px-4">Reviews</a>
     </div>
 
-
+    <hr class="border-4 border-dark my-5">
 <?php
 include 'include/snackCardsTopRated.php';
 include 'include/footer.php';
