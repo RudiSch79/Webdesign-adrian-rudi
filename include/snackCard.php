@@ -1,5 +1,3 @@
-
-
 <div class="card m-1 py-2" style="width: 18rem; height: 350px;">
 
 <img src="<?= $snack['image'] ?>" class="card-img-top img-fluid"  style="height:150px; object-fit:contain;" alt="...">

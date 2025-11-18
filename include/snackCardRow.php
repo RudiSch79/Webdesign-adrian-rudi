@@ -9,6 +9,8 @@
 
         $snack = $snacks[1];
         include 'snackCard.php';
+
+        include 'snackCardShowAll.php';
         ?>
     </div>
 </div>
