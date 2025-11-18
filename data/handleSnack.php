@@ -1,4 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $snacksFile = 'snacks.php';
 $snacks = include $snacksFile;
 
@@ -42,8 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $export = var_export($snacks, true);
     file_put_contents($snacksFile, "<?php\nreturn $export;\n");
 
+    $showSuccess = true;
+
     // Redirect back to form
-    header('Location: ../addSnack.php');
+    $_SESSION['success'] = "Snack added successfully!";
+    header('Location: ../allSnacks.php');
     exit();
 }
 ?>
