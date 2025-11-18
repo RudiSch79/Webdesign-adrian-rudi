@@ -14,7 +14,6 @@ include 'include/header.php';
             include 'include/snackCard.php';
         }
 
-        include 'snackCardShowAll.php';
         ?>
     </div>
 </div>
