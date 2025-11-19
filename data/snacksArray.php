@@ -2,7 +2,7 @@
 return array (
   0 => 
   array (
-    'id' => 1,
+    'id' => 0,
     'name' => 'Nacho Cheese',
     'brand' => 'Doritos',
     'category' => 'chips',
@@ -11,7 +11,7 @@ return array (
   ),
   1 => 
   array (
-    'id' => 2,
+    'id' => 1,
     'name' => 'Cool Ranch',
     'brand' => 'Doritos',
     'category' => 'chips',
@@ -20,7 +20,7 @@ return array (
   ),
   2 => 
   array (
-    'id' => 3,
+    'id' => 2,
     'name' => 'Poppin Jalapeno',
     'brand' => 'Doritos',
     'category' => 'Chips',
@@ -29,7 +29,7 @@ return array (
   ),
   3 => 
   array (
-    'id' => 4,
+    'id' => 3,
     'name' => 'Spicy Nacho',
     'brand' => 'Doritos',
     'category' => 'Chips',
@@ -38,7 +38,7 @@ return array (
   ),
   4 => 
   array (
-    'id' => 5,
+    'id' => 4,
     'name' => 'Classic Ketchup',
     'brand' => 'Doritos',
     'category' => 'Chips',
@@ -47,7 +47,7 @@ return array (
   ),
   5 => 
   array (
-    'id' => 6,
+    'id' => 5,
     'name' => 'Sweet Chilli',
     'brand' => 'Doritos',
     'category' => 'Chips',
