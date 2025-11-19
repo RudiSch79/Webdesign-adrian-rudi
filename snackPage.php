@@ -3,6 +3,8 @@ include 'include/header.php';
 $snacks = include 'data/snacksArray.php';
 $id = $_GET['id'];
 $snack = $snacks[$id];
+
+$reviews = include 'data/reviews.php'
 ?>
 
 <body class="d-flex flex-column">
@@ -28,7 +30,12 @@ $snack = $snacks[$id];
             <a href="#" class="btn btn-lg btn-primary">Eaten +1</a>
             </div> 
             <?php
+                $reviews = include 'data/reviews.php';
+                $review = $reviews[0];
                 include 'include/reviewCard.php';
             ?>
         </div>
+    </div>
+    <div class="container-fluid row">
+        <?php ?>
     </div>
