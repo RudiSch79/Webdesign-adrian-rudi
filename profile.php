@@ -79,12 +79,17 @@ if (isset($_POST["update_details"])) {
 
     if ($newUsername === "") {
         $error = "Username cannot be empty.";
-    } elseif ($newUsername !== $username && isset($users[$newUsername])) {
+    } 
+    elseif ($newUsername !== $username && isset($users[$newUsername])) {
         $error = "This username is already taken.";
-    } else {
+    } 
+    else {
 
         if ($newUsername !== $username) {
+
             $users[$newUsername] = $users[$username];
+            $users[$newUsername]["username"] = $newUsername; 
+
             unset($users[$username]);
 
             $_SESSION['user']['username'] = $newUsername;

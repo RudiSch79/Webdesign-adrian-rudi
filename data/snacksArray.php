@@ -54,4 +54,13 @@ return array (
     'rating' => 0,
     'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691ca741a0074.jpg',
   ),
+  6 => 
+  array (
+    'id' => 6,
+    'name' => 'asedfwef',
+    'brand' => 'd2wqefwe',
+    'category' => 'wqefwfgw',
+    'rating' => 0,
+    'image' => '/Webdesign-adrian-rudi/data/snackImages/snack_691e132503291.jpg',
+  ),
 );

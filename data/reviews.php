@@ -9,4 +9,13 @@ return array (
     'rating' => '2',
     'image' => '',
   ),
+  1 => 
+  array (
+    'snackID' => '0',
+    'user' => 'asdf',
+    'title' => 'asdf',
+    'rating' => '1',
+    'text' => 'ergergerg',
+    'image' => '',
+  ),
 );
