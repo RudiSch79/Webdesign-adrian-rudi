@@ -3,13 +3,13 @@
   $user = $users[$review['user']]
 ?>
 
-<div class="card" style="width: 36rem;">
+<div class="card mx-1 my-1" style="width: 31rem;">
   <div class="card-body">
     <div class="d-flex row mb-3">
       <img src="/Webdesign-adrian-rudi/data/images/profilePicPlaceholder.png" class="card-img-top img-fluid col"  style="height:50px; object-fit:contain;" alt="...">
       
       <div class="col-6">
-        <h5 class="card-title"><?= $review['titel'] ?></h5>
+        <h5 class="card-title"><?= $review['title'] ?></h5>
         <h6 class="card-subtitle mb-2 text-body-secondary"><?= $user['username'] ?></h6>
       </div>
 

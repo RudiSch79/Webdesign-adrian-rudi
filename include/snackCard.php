@@ -1,6 +1,6 @@
 <div class="card m-1 py-2" style="width: 18rem; height: 350px;">
 
-<a href="/Webdesign-adrian-rudi/snackPage.php">
+<a href="/Webdesign-adrian-rudi/snackPage.php?id=<?= $snack['id'] ?>">
     <img src="<?= $snack['image'] ?>" class="card-img-top img-fluid"  style="height:150px; object-fit:contain;" alt="...">
 </a>
 

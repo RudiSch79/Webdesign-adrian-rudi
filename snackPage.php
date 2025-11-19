@@ -7,7 +7,17 @@ $snack = $snacks[$id];
 $reviews = include 'data/reviews.php'
 ?>
 
-<body class="d-flex flex-column">
+<!--Sucess Notification if new snack added-->
+<?php if (isset($_SESSION['success'])): ?>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <?= $_SESSION['success'] ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php 
+    unset($_SESSION['success']); 
+endif; ?>
+
+<body class="d-flex flex-column min-vh-100">
     <div class="container-fluid row my-5">
         <div class="col-5">
             <img src="<?= $snack['image'] ?>" class="w-100 h-100 object-fit-cover" alt="...">
@@ -26,7 +36,7 @@ $reviews = include 'data/reviews.php'
             </div>
 
             <div class="d-flex space my-5">
-            <a href="#" class="btn btn-lg btn-primary me-4">Write Review</a>
+            <a href="review.php?id=<?= $id ?>" class="btn btn-lg btn-primary me-4">Write Review</a>
             <a href="#" class="btn btn-lg btn-primary">Eaten +1</a>
             </div> 
             <?php
@@ -35,7 +45,18 @@ $reviews = include 'data/reviews.php'
                 include 'include/reviewCard.php';
             ?>
         </div>
+        <div class="container-fluid d-flex flex-wrap justify-content-center">
+            <?php 
+                foreach ($reviews as $rev) {
+                    if ($rev['snackID'] == $id) {
+                        $review = $rev;
+                        include 'include/reviewCard.php';
+                    }
+                }
+            ?>
+        </div>
     </div>
-    <div class="container-fluid row">
-        <?php ?>
-    </div>
+
+<?php
+include 'include/footer.php';
+?>
