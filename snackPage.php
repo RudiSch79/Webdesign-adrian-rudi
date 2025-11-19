@@ -35,9 +35,20 @@ endif; ?>
                 <p class="fs-1 mx-3 fw-bold"><?= $snack['rating'] ?></p>
             </div>
 
-            <div class="d-flex space my-5">
-            <a href="review.php?id=<?= $id ?>" class="btn btn-lg btn-primary me-4">Write Review</a>
-            <a href="#" class="btn btn-lg btn-primary">Eaten +1</a>
+            <div class="my-5">
+                <?php if (isset($_SESSION['user'])): ?>
+                    <div class="d-flex space">
+                        <a href="review.php?id=<?= $id ?>" class="btn btn-lg btn-secondary me-4">Write Review</a>
+                        <a href="#" class="btn btn-lg btn-secondary">Eaten +1</a>
+                    </div>
+                <?php else: ?>
+                    <div class="d-flex space">
+                    <a href="review.php?id=<?= $id ?>" class="btn btn-lg btn-secondary me-4 disabled">Write Review</a>
+                    <a href="#" class="btn btn-lg btn-secondary disabled">Eaten +1</a>
+                    </div>
+                    <p class="my-2 fw-bold">Login or create account to review/track</p>
+                <?php endif; ?>
+            
             </div> 
             <?php
                 $reviews = include 'data/reviews.php';
