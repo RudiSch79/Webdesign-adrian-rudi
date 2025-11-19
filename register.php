@@ -17,8 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "Passwords do not match";
     }
     else {
-        
+        !$newId = !empty($users) ? end($users)['id'] + 1 : 1;
+
         $users[$username] = [
+            "id" => $newId,
             "username" => $username,
             "password" => password_hash($password, PASSWORD_DEFAULT),
             "is_admin" => false,

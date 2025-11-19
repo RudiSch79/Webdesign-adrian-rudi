@@ -1,7 +1,6 @@
 <?php
 include 'include/header.php';
-$snacksFile = 'data/snacksArray.php';
-$snacks = include $snacksFile;
+$snacks = include 'data/snacksArray.php';
 $id = $_GET['id'];
 $snack = $snacks[$id];
 ?>
