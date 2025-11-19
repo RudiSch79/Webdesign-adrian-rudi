@@ -6,7 +6,7 @@
 <div class="card mx-1 my-1" style="width: 31rem;">
   <div class="card-body">
     <div class="d-flex row mb-3">
-      <img src="/Webdesign-adrian-rudi/data/images/profilePicPlaceholder.png" class="card-img-top img-fluid col"  style="height:50px; object-fit:contain;" alt="...">
+      <img src="<?= $user['profile_picture'] ?>" class="card-img-top img-fluid col"  style="height:50px; object-fit:contain;" alt="...">
       
       <div class="col-6">
         <h5 class="card-title"><?= $review['title'] ?></h5>

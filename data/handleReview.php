@@ -1,11 +1,17 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
-$id = $_GET['id'];
 }
+
+$users = include "users.php";
+$username = $_SESSION['user']['username'];
+$user     = $users[$username];
+
+$id = $_GET['id'];
 
 $reviewsFile = 'reviews.php';
 $reviews = include $reviewsFile;
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? '';
@@ -14,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $newReview = [
         'snackID' => $id,
-        'user' => 'userplaceholder',
+        'user' => $user["username"],
         'title' => $title,
         'rating' => $rating,
         'text' => $text,
@@ -32,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Redirect back to form
     $_SESSION['success'] = "Review added successfully!";
     header('Location: ../snackPage.php?id='.$id);
+    //header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
 ?>
