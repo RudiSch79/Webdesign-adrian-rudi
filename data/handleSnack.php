@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Redirect back to form
     $_SESSION['success'] = "Snack added successfully!";
-    header('Location: ../Snacks.php');
+    header('Location: ../snacks.php');
     exit();
 }
 ?>
