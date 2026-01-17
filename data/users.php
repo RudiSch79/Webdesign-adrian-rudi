@@ -14,4 +14,11 @@ return array (
     'is_admin' => false,
     'profile_picture' => 'data/images/profilePicPlaceholder.png',
   ),
+  'fasz' => 
+  array (
+    'username' => 'fasz',
+    'password' => '$2y$10$FGrob.Rwwd1QGgwzZXuW4ue1P0M7P.XQGAnXBteSZlmaKKZT.bjaW',
+    'is_admin' => false,
+    'profile_picture' => 'data/images/profilePicPlaceholder.png',
+  ),
 );
