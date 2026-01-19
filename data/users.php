@@ -21,4 +21,18 @@ return array (
     'is_admin' => false,
     'profile_picture' => 'data/images/profilePicPlaceholder.png',
   ),
+  'faszkalap' => 
+  array (
+    'username' => 'faszkalap',
+    'password' => '$2y$10$c5L6UAPuHPd7cexFc6VLwevO5WRvFCQDV8nUwUlYrXUVuoCCgrLbe',
+    'is_admin' => false,
+    'profile_picture' => 'data/images/profilePicPlaceholder.png',
+  ),
+  'trontaliza12' => 
+  array (
+    'username' => 'trontaliza12',
+    'password' => '$2y$10$tBThTYTGxuwXyIcXmg9QOO4y3lfmgSySo7aNbZN1bZwQTrzCwmgO2',
+    'is_admin' => false,
+    'profile_picture' => 'data/images/profilePicPlaceholder.png',
+  ),
 );
