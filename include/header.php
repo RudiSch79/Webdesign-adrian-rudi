@@ -1,10 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
-$isLoggedIn = isset($_SESSION['user']);
-$username   =  $isLoggedIn ? $_SESSION['user']['username'] : null;
 ?>
 
 <!DOCTYPE html>
