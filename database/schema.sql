@@ -36,10 +36,11 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE snacks (
-  id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  brand_id    BIGINT UNSIGNED NOT NULL,
-  name        VARCHAR(160) NOT NULL,
-  description TEXT NULL,
+  id           BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  brand_id     BIGINT UNSIGNED NOT NULL,
+  name         VARCHAR(160) NOT NULL,
+  description  TEXT NULL,
+  categorie_id BIGINT UNSIGNED NOT NULL,
 
   -- NEW (mandatory snack image)
   image_path  VARCHAR(255) NOT NULL,
@@ -50,6 +51,10 @@ CREATE TABLE snacks (
   PRIMARY KEY (id),
 
   CONSTRAINT fk_snacks_brand
+    FOREIGN KEY (categorie_id) REFERENCES categories(id)
+    ON DELETE RESTRICT,
+  
+  CONSTRAINT fk_snacks_categorie
     FOREIGN KEY (brand_id) REFERENCES brands(id)
     ON DELETE RESTRICT,
 
