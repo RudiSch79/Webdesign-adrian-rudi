@@ -1,141 +1,176 @@
-<?php include "include/header.php"; ?>
-
 <?php
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit;
-}
+require_once "include/config.php";
 
-$users = include "data/users.php";
+require_login();
 
-$username = $_SESSION['user']['username'];
-$user     = $users[$username];
-
-$profilePicture = $user["profile_picture"];
+$pdo = db();
 
 $message = "";
 $error   = "";
 
-$uploadFolder = "data/images/profilePicUploads/";
+// Load fresh user row from DB (don’t trust session for everything)
+$sessionUser = current_user();
+$userId = (int)$sessionUser["id"];
 
+$stmt = $pdo->prepare("SELECT id, username, password_hash, avatar_path FROM users WHERE id = :id LIMIT 1");
+$stmt->execute([":id" => $userId]);
+$dbUser = $stmt->fetch();
+
+if (!$dbUser) {
+    // Session is stale (user deleted/deactivated, etc.)
+    logout_user();
+    redirect("login.php");
+}
+
+$username = $dbUser["username"];
+$defaultPic = "data/images/profilePicPlaceholder.png";
+$profilePicture = $dbUser["avatar_path"] ?: $defaultPic;
+
+// Keep uploads in one folder
+$uploadFolderFs = ROOT_PATH . "/data/uploads/avatars";
+$uploadFolderWeb = "data/uploads/avatars";
 
 if (isset($_POST["upload_picture"])) {
 
-    if (!empty($_FILES["profile_image"]["name"])) {
+    if (!isset($_FILES["profile_image"]) || $_FILES["profile_image"]["error"] !== UPLOAD_ERR_OK) {
+        $error = "Failed to upload file.";
+    } else {
 
-        $filename = $username . "_" . time() . "_" . basename($_FILES["profile_image"]["name"]);
-        $targetPath = $uploadFolder . $filename;
+        $tmpPath = $_FILES["profile_image"]["tmp_name"];
 
-        if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $targetPath)) {
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime  = $finfo->file($tmpPath);
 
-            if (!empty($user["profile_picture"]) && 
-                $user["profile_picture"] !== "data/images/profilePicPlaceholder.png") {
-                if (file_exists($user["profile_picture"])) {
-                    unlink($user["profile_picture"]);
-                }
+        $allowed = [
+            "image/jpeg" => "jpg",
+            "image/png"  => "png",
+            "image/webp" => "webp",
+        ];
+
+        if (!isset($allowed[$mime])) {
+            $error = "Only JPG, PNG, or WEBP images are allowed.";
+        } else {
+
+            if (!is_dir($uploadFolderFs)) {
+                mkdir($uploadFolderFs, 0777, true);
             }
 
-            $users[$username]["profile_picture"] = $targetPath;
+            $ext = $allowed[$mime];
 
-            file_put_contents("data/users.php", "<?php\nreturn " . var_export($users, true) . ";");
+            $filename = "u{$userId}_" . time() . "_" . bin2hex(random_bytes(6)) . "." . $ext;
+            $targetFs = $uploadFolderFs . "/" . $filename;
+            $targetWeb = $uploadFolderWeb . "/" . $filename;
 
-            $_SESSION["user"]["profile_picture"] = $targetPath;
+            if (!move_uploaded_file($tmpPath, $targetFs)) {
+                $error = "Failed to save uploaded file.";
+            } else {
 
-            $message = "Profile picture uploaded successfully!";
-            $profilePicture = $targetPath;
+                $old = $dbUser["avatar_path"];
+                if ($old && $old !== $defaultPic) {
+                    $oldFs = ROOT_PATH . "/" . ltrim($old, "/");
+                    if (is_file($oldFs)) {
+                        @unlink($oldFs);
+                    }
+                }
 
-        } else {
-            $error = "Failed to upload file.";
+                // Update DB
+                $stmt = $pdo->prepare("UPDATE users SET avatar_path = :p WHERE id = :id");
+                $stmt->execute([":p" => $targetWeb, ":id" => $userId]);
+
+                // Update session (optional, but handy for header nav/avatar)
+                $_SESSION["user"]["username"] = $username;
+                $_SESSION["user"]["avatar_path"] = $targetWeb;
+
+                $message = "Profile picture uploaded successfully!";
+                $profilePicture = $targetWeb;
+            }
         }
     }
 }
 
 if (isset($_POST["delete_picture"])) {
 
-    if (!empty($user["profile_picture"]) &&
-        $user["profile_picture"] !== "data/images/profilePicPlaceholder.png") {
-
-        $file = $user["profile_picture"];
-        if (file_exists($file)) {
-            unlink($file);
+    // Delete old avatar file if it was real
+    $old = $dbUser["avatar_path"];
+    if ($old && $old !== $defaultPic) {
+        $oldFs = ROOT_PATH . "/" . ltrim($old, "/");
+        if (is_file($oldFs)) {
+            @unlink($oldFs);
         }
     }
 
-    $defaultPic = "data/images/profilePicPlaceholder.png";
-    $users[$username]["profile_picture"] = $defaultPic;
+    // Update DB to placeholder (or NULL, if you prefer)
+    $stmt = $pdo->prepare("UPDATE users SET avatar_path = :p WHERE id = :id");
+    $stmt->execute([":p" => $defaultPic, ":id" => $userId]);
 
-    file_put_contents("data/users.php", "<?php\nreturn " . var_export($users, true) . ";");
-
-    $_SESSION["user"]["profile_picture"] = $defaultPic;
+    $_SESSION["user"]["avatar_path"] = $defaultPic;
 
     $message = "Profile picture deleted.";
     $profilePicture = $defaultPic;
 }
 
-
 if (isset($_POST["update_details"])) {
 
-    $newUsername = trim($_POST["username"]);
+    $newUsername = trim($_POST["username"] ?? "");
 
     if ($newUsername === "") {
         $error = "Username cannot be empty.";
-    } 
-    elseif ($newUsername !== $username && isset($users[$newUsername])) {
-        $error = "This username is already taken.";
-    } 
-    else {
+    } elseif ($newUsername !== $username) {
 
-        if ($newUsername !== $username) {
+        // Check uniqueness
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE username = :u LIMIT 1");
+        $stmt->execute([":u" => $newUsername]);
+        $exists = $stmt->fetchColumn();
 
-            $users[$newUsername] = $users[$username];
-            $users[$newUsername]["username"] = $newUsername; 
+        if ($exists) {
+            $error = "This username is already taken.";
+        } else {
+            $stmt = $pdo->prepare("UPDATE users SET username = :u WHERE id = :id");
+            $stmt->execute([":u" => $newUsername, ":id" => $userId]);
 
-            unset($users[$username]);
+            $_SESSION["user"]["username"] = $newUsername;
 
-            $_SESSION['user']['username'] = $newUsername;
-
+            $message = "Details updated successfully!";
             $username = $newUsername;
         }
-
-        file_put_contents("data/users.php", "<?php\nreturn " . var_export($users, true) . ";");
-
+    } else {
         $message = "Details updated successfully!";
     }
 }
 
 if (isset($_POST["change_password"])) {
 
-    $current = trim($_POST["current_password"]);
-    $new     = trim($_POST["new_password"]);
-    $confirm = trim($_POST["confirm_password"]);
+    $current = trim($_POST["current_password"] ?? "");
+    $new     = trim($_POST["new_password"] ?? "");
+    $confirm = trim($_POST["confirm_password"] ?? "");
 
-    if (!password_verify($current, $user["password"])) {
+    if (!password_verify($current, $dbUser["password_hash"])) {
         $error = "Current password is incorrect.";
-    } elseif ($new !== $confirm) {
+    } elseif ($new === "" || $new !== $confirm) {
         $error = "New passwords do not match.";
     } else {
+        $newHash = password_hash($new, PASSWORD_DEFAULT);
 
-        $users[$username]["password"] = password_hash($new, PASSWORD_DEFAULT);
-
-        file_put_contents("data/users.php", "<?php\nreturn " . var_export($users, true) . ";");
+        $stmt = $pdo->prepare("UPDATE users SET password_hash = :h WHERE id = :id");
+        $stmt->execute([":h" => $newHash, ":id" => $userId]);
 
         $message = "Password updated successfully!";
     }
 }
 
+include "include/header.php";
 ?>
 
 <body class="d-flex flex-column min-vh-100">
-
 <main class="flex-grow-1">
 <div class="container py-5">
 
     <?php if ($message): ?>
-        <div class="alert alert-success"><?= htmlspecialchars($message) ?></div>
+        <div class="alert alert-success"><?= e($message) ?></div>
     <?php endif; ?>
 
     <?php if ($error): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+        <div class="alert alert-danger"><?= e($error) ?></div>
     <?php endif; ?>
 
     <div class="card shadow-sm p-4">
@@ -143,13 +178,13 @@ if (isset($_POST["change_password"])) {
 
             <div class="col-md-3 text-center border-end">
 
-                <img src="<?= htmlspecialchars($profilePicture) ?>"
+                <img src="<?= e($profilePicture) ?>"
                      class="rounded-circle mb-3"
                      width="150" height="150"
                      style="object-fit: cover;">
 
                 <form method="POST" enctype="multipart/form-data" class="mb-3">
-                    <input type="file" name="profile_image" class="form-control mb-2" required>
+                    <input type="file" name="profile_image" class="form-control mb-2" accept="image/*" required>
                     <button class="btn btn-primary w-100" name="upload_picture">Upload new profile picture</button>
                 </form>
 
@@ -167,7 +202,7 @@ if (isset($_POST["change_password"])) {
                     <div class="mb-3">
                         <label class="form-label">Username</label>
                         <input type="text" name="username" class="form-control"
-                               value="<?= htmlspecialchars($username) ?>" required>
+                               value="<?= e($username) ?>" required>
                     </div>
 
                     <button class="btn btn-secondary" name="update_details">Change details</button>
