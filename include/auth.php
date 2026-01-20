@@ -27,3 +27,11 @@ function require_login(): void
         redirect('login.php');
     }
 }
+
+function require_admin(): void
+{
+    $u = current_user();
+    if (!$u || (int)$u['is_admin'] !== 1) {
+        redirect('index.php');
+    }
+}

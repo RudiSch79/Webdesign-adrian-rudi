@@ -1,6 +1,7 @@
 <?php
 $user = current_user();
 $isLoggedIn = $user !== null;
+$isAdmin = $isLoggedIn ? $user["is_admin"] : 0;
 $username = $isLoggedIn ? $user["username"] : "";
 ?>
 <!DOCTYPE html>
@@ -38,7 +39,7 @@ $username = $isLoggedIn ? $user["username"] : "";
               <a class="btn btn-warning text-dark" href="./register.php">Register</a>
           </li>
 
-        <?php else: ?>
+        <?php elseif ($isLoggedIn && !($isAdmin)): ?>
           <li class="nav-item dropdown">
               <a class="btn btn-outline-light dropdown-toggle" href="#" data-bs-toggle="dropdown">
                   <?= e($username) ?>
@@ -49,7 +50,19 @@ $username = $isLoggedIn ? $user["username"] : "";
                   <li><a class="dropdown-item text-danger" href="./logout.php">Logout</a></li>
               </ul>
           </li>
-        <?php endif; ?>
+        <?php elseif ($isLoggedIn && $isAdmin): ?>
+          <li class="nav-item dropdown">
+              <a class="btn btn-outline-light dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                  <?= e($username) ?>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
+                  <li><a class="dropdown-item" href="./adminPanel.php">Admin Panel</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="./logout.php">Logout</a></li>
+              </ul>
+          </li>
+        <?php endif ?>
 
       </ul>
 
