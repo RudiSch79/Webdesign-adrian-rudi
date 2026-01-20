@@ -13,36 +13,55 @@ include 'include/header.php';
         <input name="name" class="form-control" id="name" required>
     </div>
 
-    <div class="mb-3">
-        <label for="brand" class="form-label">Brand</label>
-        <select name="brand" class="form-control" id="brand" required>
-            <option value="">Select a brand</option>
-            <?php
-            $brands = db_fetch_all("SELECT * FROM brands");
-            foreach ($brands as $brand) {
-                echo '<option value="' . htmlspecialchars($brand['id']) . '">' . htmlspecialchars($brand['name']) . '</option>';
-            }
-            ?>
-        </select>
-    </div>
 
-    <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <select name="categorie" class="form-control" id="categorie" required>
-            <option value="">Select a categorie</option>
-            <?php
-            $categories = db_fetch_all("SELECT * FROM categories");
-            foreach ($categories as $categorie) {
-                echo '<option value="' . htmlspecialchars($categorie['id']) . '">' . htmlspecialchars($categorie['name']) . '</option>';
-            }
-            ?>
-        </select>
-    </div>
+    <?php if (!isset($_GET['suggest'])): ?>
+        <div class="mb-3">
+            <label for="brand" class="form-label">Brand</label>
+            <select name="brand" class="form-control" id="brand" required>
+                <option value="">Select a brand</option>
+                <?php
+                $brands = db_fetch_all("SELECT * FROM brands");
+                foreach ($brands as $brand) {
+                    echo '<option value="' . htmlspecialchars($brand['id']) . '">' . htmlspecialchars($brand['name']) . '</option>';
+                }
+                ?>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select name="categorie" class="form-control" id="categorie" required>
+                <option value="">Select a categorie</option>
+                <?php
+                $categories = db_fetch_all("SELECT * FROM categories");
+                foreach ($categories as $categorie) {
+                    echo '<option value="' . htmlspecialchars($categorie['id']) . '">' . htmlspecialchars($categorie['name']) . '</option>';
+                }
+                ?>
+            </select>
+        </div>
+    <?php else: ?>
+        <div class="mb-3">
+            <label for="brand" class="form-label">Brand</label>
+            <input name="brand" class="form-control" id="brand" required>
+        </div>
+        <div class="mb-3">
+            <label for="categorie" class="form-label">Categorie</label>
+            <input name="categorie" class="form-control" id="categorie" required>
+        </div>
+    <?php endif; ?>
 
     <div class="mb-3">
         <label for="image" class="form-label">Image</label>
         <input type="file" name="image" class="form-control" id="image" accept="image/*">
     </div>
+    
+    <?php if (!isset($_GET['suggest'])): ?>
+        <div class="mb-3">
+            <p1 class="small"> Cant find qhat you are looking for? </p1>
+            <p1 class="small"><u><a href=addSnack.php?suggest> Suggest new brand/categorie </a></u></p1>
+        </div>
+    <?php endif; ?>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
