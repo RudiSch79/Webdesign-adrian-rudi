@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../include/bootstrap.php";
+require_once __DIR__ . "/../include/config.php";
 
 $pdo = db();
 
@@ -8,10 +8,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 $name     = trim($_POST["name"] ?? "");
-$brand    = trim($_POST["brand"] ?? "");
-$category = trim($_POST["category"] ?? "");
+$brandId    = trim($_POST["brand"] ?? "");
+$categorieId = trim($_POST["categorie"] ?? "");
 
-if ($name === "" || $brand === "" || $category === "") {
+
+if ($name === "" || $brand === "" || $categorie === "") {
     $_SESSION["success"] = "Please fill in all fields.";
     redirect("../addSnack.php");
 }
@@ -47,7 +48,7 @@ if (!is_dir($uploadDirFs)) {
 $filename = bin2hex(random_bytes(16)) . "." . $ext;
 $destFs   = $uploadDirFs . "/" . $filename;
 
-$imagePathForDb = "data/uploads/snacks/" . $filename;
+$imagePath = "data/uploads/snacks/" . $filename;
 
 if (!move_uploaded_file($tmpPath, $destFs)) {
     $_SESSION["success"] = "Could not save uploaded image.";
@@ -57,49 +58,31 @@ if (!move_uploaded_file($tmpPath, $destFs)) {
 try {
     $pdo->beginTransaction();
 
-    $stmt = $pdo->prepare("SELECT id FROM brands WHERE name = :n LIMIT 1");
-    $stmt->execute([":n" => $brand]);
-    $brandId = $stmt->fetchColumn();
+    // if (!$brandId) {
+    //     $stmt = $pdo->prepare("INSERT INTO brands (name) VALUES (:n)");
+    //     $stmt->execute([":n" => $brand]);
+    //     $brandId = (int)$pdo->lastInsertId();
+    // } else {
+    //     $brandId = (int)$brandId;
+    // }
 
-    if (!$brandId) {
-        $stmt = $pdo->prepare("INSERT INTO brands (name) VALUES (:n)");
-        $stmt->execute([":n" => $brand]);
-        $brandId = (int)$pdo->lastInsertId();
-    } else {
-        $brandId = (int)$brandId;
-    }
-
-    $stmt = $pdo->prepare("SELECT id FROM categories WHERE name = :n LIMIT 1");
-    $stmt->execute([":n" => $category]);
-    $categoryId = $stmt->fetchColumn();
-
-    if (!$categoryId) {
-        $stmt = $pdo->prepare("INSERT INTO categories (name) VALUES (:n)");
-        $stmt->execute([":n" => $category]);
-        $categoryId = (int)$pdo->lastInsertId();
-    } else {
-        $categoryId = (int)$categoryId;
-    }
+    // if (!$categoryId) {
+    //     $stmt = $pdo->prepare("INSERT INTO categories (name) VALUES (:n)");
+    //     $stmt->execute([":n" => $category]);
+    //     $categoryId = (int)$pdo->lastInsertId();
+    // } else {
+    //     $categoryId = (int)$categoryId;
+    // }
 
     $stmt = $pdo->prepare("
-        INSERT INTO snacks (brand_id, name, image_path, description)
-        VALUES (:brand_id, :name, :image_path, NULL)
+        INSERT INTO snacks (brand_id, categorie_id, name, image_path, description)
+        VALUES (:brand_id, :categorie_id, :name, :image_path, NULL)
     ");
     $stmt->execute([
         ":brand_id"   => $brandId,
         ":name"       => $name,
-        ":image_path" => $imagePathForDb,
-    ]);
-
-    $snackId = (int)$pdo->lastInsertId();
-
-    $stmt = $pdo->prepare("
-        INSERT INTO snack_categories (snack_id, category_id)
-        VALUES (:snack_id, :category_id)
-    ");
-    $stmt->execute([
-        ":snack_id"    => $snackId,
-        ":category_id" => $categoryId,
+        ":image_path" => $imagePath,
+        ":categorie_id" => $categorieId
     ]);
 
     $pdo->commit();
@@ -115,5 +98,5 @@ try {
     }
 
     $_SESSION["success"] = "Could not add snack (maybe duplicate name for that brand).";
-    redirect("../addSnack.php");
+    redirect("../snacks.php");
 }

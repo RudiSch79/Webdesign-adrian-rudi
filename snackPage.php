@@ -49,8 +49,6 @@ $stmt->execute([':id' => $id]);
 $reviews = $stmt->fetchAll();
 
 $user = current_user();
-
-include __DIR__ . "/include/header.php";
 ?>
 
 

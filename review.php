@@ -48,8 +48,8 @@ include "include/header.php";
         </div>
 
         <div class="mb-3">
-          <label for="rating" class="form-label">Rating (1-5)</label>
-          <input type="number" class="form-control" id="rating" name="rating" min="1" max="5" required>
+          <label for="rating" class="form-label">Rating (0-5)</label>
+          <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" step="0.1" required>
         </div>
 
         <div class="mb-3">
@@ -59,7 +59,7 @@ include "include/header.php";
 
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
-            <input type="file" name="image" class="form-control" id="image" accept="image/*" required>
+            <input type="file" name="image" class="form-control" id="image" accept="image/*">
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
