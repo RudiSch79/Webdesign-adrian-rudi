@@ -1,13 +1,14 @@
 <?php
 require_once "include/config.php";
+include "include/header.php";
+
 $pdo = db();
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) {
     redirect("snacks.php");
 }
-    
-include "include/header.php";
+
 $stmt = $pdo->prepare("
     SELECT
         s.id,
@@ -46,8 +47,8 @@ $stmt = $pdo->prepare("
     ORDER BY r.created_at DESC
 ");
 $stmt->execute([':id' => $id]);
-$reviews = $stmt->fetchAll();
 
+$reviews = db_fetch_all("SELECT * FROM reviews WHERE snack_id = :id", ['id' => $id]);
 $user = current_user();
 ?>
 

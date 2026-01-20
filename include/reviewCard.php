@@ -1,12 +1,11 @@
 <?php
-  $users = include './data/users.php';
-  $user = $users[$review['user']]
+  $user = db_fetch_one("SELECT * FROM users WHERE id = :id", ['id' => $review['user_id']]);
 ?>
 
 <div class="card mx-1 my-1" style="width: 31rem;">
   <div class="card-body">
     <div class="d-flex row mb-3">
-      <img src="<?= $user['profile_picture'] ?>" class="card-img-top img-fluid col"  style="height:50px; object-fit:contain;" alt="...">
+      <img src="<?= $user['avatar_path'] ?>" class="card-img-top img-fluid col"  style="height:50px; object-fit:contain;" alt="...">
       
       <div class="col-6">
         <h5 class="card-title"><?= $review['title'] ?></h5>
@@ -20,6 +19,6 @@
           <p class="card-text ms-3 fw-bold fs-2"><?= $review['rating'] ?></p>
       </div>
     </div>
-    <p class="card-text"><?= $review['text'] ?></p>
+    <p class="card-text"><?= $review['body'] ?></p>
   </div>
 </div>
