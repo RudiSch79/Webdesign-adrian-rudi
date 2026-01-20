@@ -1,9 +1,3 @@
-CREATE DATABASE IF NOT EXISTS snackscout
-  DEFAULT CHARACTER SET utf8mb4
-  DEFAULT COLLATE utf8mb4_0900_ai_ci;
-
-USE snackscout;
-
 CREATE TABLE users (
   id            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   username      VARCHAR(50) NOT NULL,
@@ -40,6 +34,10 @@ CREATE TABLE snacks (
   brand_id    BIGINT UNSIGNED NOT NULL,
   name        VARCHAR(160) NOT NULL,
   description TEXT NULL,
+
+  -- NEW (mandatory snack image)
+  image_path  VARCHAR(255) NOT NULL,
+
   created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -54,23 +52,6 @@ CREATE TABLE snacks (
   KEY idx_snacks_brand (brand_id)
 );
 
-CREATE TABLE snack_categories (
-  snack_id     BIGINT UNSIGNED NOT NULL,
-  category_id  BIGINT UNSIGNED NOT NULL,
-
-  PRIMARY KEY (snack_id, category_id),
-
-  CONSTRAINT fk_snack_categories_snack
-    FOREIGN KEY (snack_id) REFERENCES snacks(id)
-    ON DELETE CASCADE,
-
-  CONSTRAINT fk_snack_categories_category
-    FOREIGN KEY (category_id) REFERENCES categories(id)
-    ON DELETE RESTRICT,
-
-  KEY idx_snack_categories_category (category_id)
-);
-
 CREATE TABLE reviews (
   id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   snack_id    BIGINT UNSIGNED NOT NULL,
@@ -80,7 +61,8 @@ CREATE TABLE reviews (
   body        TEXT NOT NULL,
   rating      TINYINT UNSIGNED NOT NULL,
 
-  image_path  VARCHAR(255) NULL,
+  -- NOW mandatory (because you want review images required)
+  image_path  VARCHAR(255) NOT NULL,
 
   created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -124,44 +106,4 @@ CREATE TABLE review_comments (
   KEY idx_review_comments_review (review_id),
   KEY idx_review_comments_user (user_id),
   KEY idx_review_comments_created (created_at)
-);
-
-CREATE TABLE forum_threads (
-  id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id     BIGINT UNSIGNED NOT NULL,
-  title       VARCHAR(200) NOT NULL,
-  body        TEXT NOT NULL,
-  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-
-  PRIMARY KEY (id),
-
-  CONSTRAINT fk_forum_threads_user
-    FOREIGN KEY (user_id) REFERENCES users(id)
-    ON DELETE CASCADE,
-
-  KEY idx_forum_threads_user (user_id),
-  KEY idx_forum_threads_created (created_at)
-);
-
-CREATE TABLE forum_replies (
-  id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  thread_id   BIGINT UNSIGNED NOT NULL,
-  user_id     BIGINT UNSIGNED NOT NULL,
-  body        TEXT NOT NULL,
-  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-  PRIMARY KEY (id),
-
-  CONSTRAINT fk_forum_replies_thread
-    FOREIGN KEY (thread_id) REFERENCES forum_threads(id)
-    ON DELETE CASCADE,
-
-  CONSTRAINT fk_forum_replies_user
-    FOREIGN KEY (user_id) REFERENCES users(id)
-    ON DELETE CASCADE,
-
-  KEY idx_forum_replies_thread (thread_id),
-  KEY idx_forum_replies_user (user_id),
-  KEY idx_forum_replies_created (created_at)
 );
