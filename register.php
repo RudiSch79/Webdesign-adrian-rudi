@@ -1,42 +1,68 @@
-<?php include "include/header.php"; ?>
-<?php 
-$users = include "data/users.php";
+<?php
+require_once "include/config.php";
+
+$pdo = db();
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-    $confirm  = trim($_POST['confirm_password']);
+    $username = trim($_POST['username'] ?? "");
+    $password = trim($_POST['password'] ?? "");
+    $confirm  = trim($_POST['confirm_password'] ?? "");
 
-    if (isset($users[$username])) {
-        $error = "Username already exists";
-    } 
-    else if ($password !== $confirm) {
+    if ($username === "" || $password === "" || $confirm === "") {
+        $error = "Please fill in all fields.";
+    } elseif ($password !== $confirm) {
         $error = "Passwords do not match";
-    }
-    else {
-        $users[$username] = [
-            "username" => $username,
-            "password" => password_hash($password, PASSWORD_DEFAULT),
-            "is_admin" => false,
-            "profile_picture" => 'data/images/profilePicPlaceholder.png'
-        ];
+    } else {
 
-        $code = "<?php\nreturn " . var_export($users, true) . ";";
-        file_put_contents("data/users.php", $code);
+        // Optional: basic username length check to match schema (VARCHAR 50)
+        if (mb_strlen($username) > 50) {
+            $error = "Username is too long (max 50 characters).";
+        } else {
+            // Check if username already exists
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE username = :u LIMIT 1");
+            $stmt->execute([":u" => $username]);
+            $exists = $stmt->fetchColumn();
 
+            if ($exists) {
+                $error = "Username already exists";
+            } else {
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $defaultAvatar = "data/images/profilePicPlaceholder.png";
 
-        $_SESSION['user'] = [
-        "username" => $username,
-        "is_admin" => false
-        ];
+                try {
+                    $stmt = $pdo->prepare("
+                        INSERT INTO users (username, password_hash, avatar_path, is_admin, is_active)
+                        VALUES (:u, :p, :a, 0, 1)
+                    ");
+                    $stmt->execute([
+                        ":u" => $username,
+                        ":p" => $hash,
+                        ":a" => $defaultAvatar,
+                    ]);
 
-        header("Location: index.php");
-        exit;
+                    $newUserId = (int)$pdo->lastInsertId();
+
+                    // Log user in (same session shape as your login.php)
+                    login_user([
+                        "id" => $newUserId,
+                        "username" => $username,
+                        "is_admin" => 0,
+                    ]);
+
+                    redirect("index.php");
+
+                } catch (Throwable $e) {
+                    $error = "Could not create account. Please try a different username.";
+                }
+            }
+        }
     }
 }
+
+include "include/header.php";
 ?>
 
 <body class="d-flex flex-column min-vh-100">
@@ -50,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <h2 class="h4 mb-4 text-center">Create your account</h2>
 
                 <?php if (!empty($error)): ?>
-                    <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+                    <div class="alert alert-danger"><?= e($error) ?></div>
                 <?php endif; ?>
 
                 <form method="POST">

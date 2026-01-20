@@ -58,4 +58,4 @@ include __DIR__ . "/include/header.php";
     </div>
   </div>
 </main>
-<?php include __DIR__ . "/include/footer.php"; ?>
+<?php include "include/footer.php"; ?>
