@@ -7,6 +7,7 @@ $pdo  = db();
 $user = current_user();
 $reviewId = isset($_POST['review_id']) ? (int)$_POST['review_id'] : null;
 $id = $_POST['snack_id'];
+$uploadDir = "uploads/reviews";
 if ($id <= 0) redirect("../snacks.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -58,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Unique filename
         $filename = bin2hex(random_bytes(16)) . "." . $ext;
-        $destFs   = $uploadDirFs . "/" . $filename;
+        $destFs   = $uploadDir . "/" . $filename;
 
         if (!move_uploaded_file($tmpPath, $destFs)) {
             $_SESSION['error'] = "Could not save uploaded image.";
