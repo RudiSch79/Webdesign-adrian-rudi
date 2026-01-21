@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 21. 20:33
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Jan 21, 2026 at 09:08 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `snackscout`
+-- Database: `snackscout`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `brands`
+-- Table structure for table `brands`
 --
 
 CREATE TABLE `brands` (
@@ -34,7 +34,7 @@ CREATE TABLE `brands` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `brands`
+-- Dumping data for table `brands`
 --
 
 INSERT INTO `brands` (`id`, `name`, `created_at`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `brands` (`id`, `name`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `categories`
+-- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
@@ -55,7 +55,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `categories`
+-- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
@@ -67,7 +67,7 @@ INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `reviews`
+-- Table structure for table `reviews`
 --
 
 CREATE TABLE `reviews` (
@@ -77,38 +77,25 @@ CREATE TABLE `reviews` (
   `title` varchar(160) NOT NULL,
   `body` text NOT NULL,
   `rating` decimal(3,1) UNSIGNED NOT NULL,
+  `score` int(11) NOT NULL DEFAULT 0,
   `image_path` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
--- A tábla adatainak kiíratása `reviews`
+-- Dumping data for table `reviews`
 --
 
-INSERT INTO `reviews` (`id`, `snack_id`, `user_id`, `title`, `body`, `rating`, `image_path`, `created_at`, `updated_at`) VALUES
-(11, 8, 1, 'Very Sweet but delicious', 'I like the taste of the aunt nellie sweet its a bit sour with a good mix of sweetness. I remmoned it to others.', 4.2, 'data/uploads/reviews/87976cafec10dfe2811abee1de19a0c5.jpg', '2026-01-21 13:38:27', '2026-01-21 13:43:47'),
-(12, 20, 1, 'Aller Besten Haribo', 'Pico-Balla sind einfach ein klassiker. Ich geniesse sie jedes mal aufs neue, mhmm lecker.', 4.8, 'data/uploads/reviews/b4c093eaa8d429f80d1cf00855447572.jpg', '2026-01-21 13:58:15', '2026-01-21 13:58:46'),
-(13, 22, 1, 'Leckerer Snack', 'kann man zwischendurch gut essen', 4.0, 'data/uploads/reviews/98091d59722744bf2a3fa8ed09ef05a1.jpg', '2026-01-21 14:00:06', '2026-01-21 14:00:06');
+INSERT INTO `reviews` (`id`, `snack_id`, `user_id`, `title`, `body`, `rating`, `score`, `image_path`, `created_at`, `updated_at`) VALUES
+(11, 8, 1, 'Very Sweet but delicious', 'I like the taste of the aunt nellie sweet its a bit sour with a good mix of sweetness. I remmoned it to others.', 4.2, 0, 'data/uploads/reviews/87976cafec10dfe2811abee1de19a0c5.jpg', '2026-01-21 13:38:27', '2026-01-21 13:43:47'),
+(12, 20, 1, 'Aller Besten Haribo', 'Pico-Balla sind einfach ein klassiker. Ich geniesse sie jedes mal aufs neue, mhmm lecker.', 4.8, 0, 'data/uploads/reviews/b4c093eaa8d429f80d1cf00855447572.jpg', '2026-01-21 13:58:15', '2026-01-21 13:58:46'),
+(13, 22, 1, 'Leckerer Snack', 'kann man zwischendurch gut essen', 4.0, 2, 'data/uploads/reviews/98091d59722744bf2a3fa8ed09ef05a1.jpg', '2026-01-21 14:00:06', '2026-01-21 21:07:14');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `review_comments`
---
-
-CREATE TABLE `review_comments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `review_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `body` text NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `snacks`
+-- Table structure for table `snacks`
 --
 
 CREATE TABLE `snacks` (
@@ -123,7 +110,7 @@ CREATE TABLE `snacks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `snacks`
+-- Dumping data for table `snacks`
 --
 
 INSERT INTO `snacks` (`id`, `brand_id`, `name`, `description`, `categorie_id`, `image_path`, `created_at`, `updated_at`) VALUES
@@ -145,7 +132,7 @@ INSERT INTO `snacks` (`id`, `brand_id`, `name`, `description`, `categorie_id`, `
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `suggestions`
+-- Table structure for table `suggestions`
 --
 
 CREATE TABLE `suggestions` (
@@ -158,7 +145,7 @@ CREATE TABLE `suggestions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
--- A tábla adatainak kiíratása `suggestions`
+-- Dumping data for table `suggestions`
 --
 
 INSERT INTO `suggestions` (`id`, `user_id`, `type`, `name`, `status`, `created_at`) VALUES
@@ -167,7 +154,7 @@ INSERT INTO `suggestions` (`id`, `user_id`, `type`, `name`, `status`, `created_a
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -181,7 +168,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password_hash`, `avatar_path`, `is_admin`, `is_active`, `created_at`) VALUES
@@ -190,25 +177,25 @@ INSERT INTO `users` (`id`, `username`, `password_hash`, `avatar_path`, `is_admin
 (4, '123', '$2y$10$qNLjrkped15erJ2d544SQOPIv4O2Y1DVlPVEcTM0WUqL27BbEh9Xy', 'data/images/profilePicPlaceholder.png', 0, 1, '2026-01-21 16:00:35');
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `brands`
+-- Indexes for table `brands`
 --
 ALTER TABLE `brands`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_brands_name` (`name`);
 
 --
--- A tábla indexei `categories`
+-- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_categories_name` (`name`);
 
 --
--- A tábla indexei `reviews`
+-- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`),
@@ -218,16 +205,7 @@ ALTER TABLE `reviews`
   ADD KEY `idx_reviews_created` (`created_at`);
 
 --
--- A tábla indexei `review_comments`
---
-ALTER TABLE `review_comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_review_comments_review` (`review_id`),
-  ADD KEY `idx_review_comments_user` (`user_id`),
-  ADD KEY `idx_review_comments_created` (`created_at`);
-
---
--- A tábla indexei `snacks`
+-- Indexes for table `snacks`
 --
 ALTER TABLE `snacks`
   ADD PRIMARY KEY (`id`),
@@ -237,7 +215,7 @@ ALTER TABLE `snacks`
   ADD KEY `idx_snacks_brand` (`brand_id`);
 
 --
--- A tábla indexei `suggestions`
+-- Indexes for table `suggestions`
 --
 ALTER TABLE `suggestions`
   ADD PRIMARY KEY (`id`),
@@ -246,90 +224,66 @@ ALTER TABLE `suggestions`
   ADD KEY `idx_suggestions_user` (`user_id`);
 
 --
--- A tábla indexei `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_users_username` (`username`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `brands`
+-- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT a táblához `categories`
+-- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT a táblához `reviews`
+-- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT a táblához `review_comments`
---
-ALTER TABLE `review_comments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `snacks`
+-- AUTO_INCREMENT for table `snacks`
 --
 ALTER TABLE `snacks`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT a táblához `suggestions`
+-- AUTO_INCREMENT for table `suggestions`
 --
 ALTER TABLE `suggestions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `reviews`
+-- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
   ADD CONSTRAINT `fk_reviews_snack` FOREIGN KEY (`snack_id`) REFERENCES `snacks` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_reviews_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Megkötések a táblához `review_comments`
---
-ALTER TABLE `review_comments`
-  ADD CONSTRAINT `fk_review_comments_review` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_review_comments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Megkötések a táblához `snacks`
+-- Constraints for table `snacks`
 --
 ALTER TABLE `snacks`
   ADD CONSTRAINT `fk_snacks_brand` FOREIGN KEY (`categorie_id`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `fk_snacks_categorie` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`);
-
---
--- Megkötések a táblához `suggestions`
---
-ALTER TABLE `suggestions`
-  ADD CONSTRAINT `fk_suggestions_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
