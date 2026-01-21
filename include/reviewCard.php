@@ -72,7 +72,7 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center mx-1">
-        <p class="mb-0"><?= $review['updated_at'] ?></p>
+        <p class="mb-0"><?= $review['created_at'] ?></p>
         <div class="d-flex align-items-center gap-2">
           <form action="data/handleReview.php" method="POST" style="display:inline;">
             <input type="hidden" name="review_id" value="<?= $review['id'] ?>">

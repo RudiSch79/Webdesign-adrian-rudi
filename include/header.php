@@ -30,7 +30,16 @@ $username = $isLoggedIn ? $user["username"] : "";
       <ul class="navbar-nav ms-auto">
         <li class="nav-item mx-3 d-flex align-items-center">
           <form method="GET" action="/Webdesign-Adrian-Rudi/snacks.php" class="d-flex align-items-center">
-              <input class="form-control me-2" type="text" name="query" placeholder="Search..." required>
+              <input type="hidden" name="brand" value="<?= htmlspecialchars($_GET['brand'] ?? '') ?>">
+              <input type="hidden" name="categorie" value="<?= htmlspecialchars($_GET['categorie'] ?? '') ?>">
+              <input type="hidden" name="sort" value="<?= htmlspecialchars($_GET['sort'] ?? '') ?>">
+              <input
+                  class="form-control me-2"
+                  type="text"
+                  name="query"
+                  placeholder="Search..."
+                  value="<?= htmlspecialchars($_GET['query'] ?? '') ?>"
+              >
               <button class="btn btn-outline-light" type="submit">Search</button>
           </form>
         </li>
