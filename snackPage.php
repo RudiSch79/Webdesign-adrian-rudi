@@ -15,6 +15,7 @@ $stmt = $pdo->prepare("
         s.id,
         s.name,
         s.description,
+        s.categorie_id,
         s.image_path,
         b.name AS brand_name,
         c.name AS categorie_name,
@@ -64,7 +65,11 @@ $user = current_user();
         <div class="col pt-5">
             <h1 class="display-1 fw-bold"><?= e($snack['name']) ?></h1>
             <h1 class="display-3"><?= e($snack['brand_name']) ?></h1>
-            <p class="fs-5 fw-light"><?= e($snack['categorie_name']) ?><p>
+            <p class="fs-5 fw-light">
+                <a class="text-decoration-none text-dark" href="snacks.php?categorie=<?= $snack['categorie_id'] ?>"> 
+                    <?= $snack['categorie_name'] ?>
+                </a>
+            <p>
 
             <div class="d-flex justify-content-start mb-3">
                 <img src="data/images/star.png"
