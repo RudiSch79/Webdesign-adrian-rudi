@@ -2,6 +2,8 @@
 include 'include/config.php';
 include 'include/header.php';
 
+$suggestBrand = isset($_GET['suggestBrand']);
+$suggestCategorie = isset($_GET['suggestCategorie']);
 ?>
 
 <?php if (isset($_SESSION['success'])): ?>
@@ -22,7 +24,7 @@ include 'include/header.php';
     </div>
 
 
-    <?php if (!isset($_GET['suggest'])): ?>
+    <?php if (!$suggestBrand): ?>
         <div class="mb-3">
             <label for="brandId" class="form-label">Brand</label>
             <select name="brandId" class="form-control" id="brandId" required>
@@ -35,6 +37,14 @@ include 'include/header.php';
                 ?>
             </select>
         </div>
+    <?php else: ?>
+        <div class="mb-3">
+            <label for="newBrand" class="form-label">Brand</label>
+            <input name="newBrand" class="form-control" id="newBrand" required>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!$suggestCategorie): ?>
         <div class="mb-3">
             <label for="categorieId" class="form-label">Categorie</label>
             <select name="categorieId" class="form-control" id="categorieId" required>
@@ -49,10 +59,6 @@ include 'include/header.php';
         </div>
     <?php else: ?>
         <div class="mb-3">
-            <label for="newBrand" class="form-label">Brand</label>
-            <input name="newBrand" class="form-control" id="newBrand" required>
-        </div>
-        <div class="mb-3">
             <label for="newCategorie" class="form-label">Categorie</label>
             <input name="newCategorie" class="form-control" id="newCategorie" required>
         </div>
@@ -65,8 +71,10 @@ include 'include/header.php';
     
     <?php if (!isset($_GET['suggest'])): ?>
         <div class="mb-3">
-            <p1 class="small"> Cant find qhat you are looking for? </p1>
-            <p1 class="small"><u><a href=addSnack.php?suggest> Suggest new brand/categorie </a></u></p1>
+            <p1 class="small"> Cant find qhat you are looking for? Suggest new: </p1>
+            <p1 class="small"><u><a href="addSnack.php?suggestBrand<?= $suggestCategorie ? '&suggestCategorie' : '' ?>"> Brand </a></u></p1>
+            <p1 class="small">/</p1>
+            <p1 class="small"><u><a href="addSnack.php?suggestCategorie<?= $suggestBrand ? '&suggestBrand' : '' ?>"> Categorie </a></u></p1>
         </div>
     <?php endif; ?>
 

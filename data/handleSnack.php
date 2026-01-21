@@ -8,11 +8,11 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 $name     = trim($_POST["name"] ?? "");
-$brandId    = $_POST["brandId"]?? null;
+$brandId    = $_POST["brandId"] ?? null;
 $categorieId = $_POST["categorieId"] ?? null;
 
-$newBrand = $_POST["newBrand"];
-$newCategorie = $_POST["newCategorie"];
+$newBrand = trim($_POST["newBrand"]);
+$newCategorie = trim($_POST["newCategorie"]);
 
 
 if ($name === "" || $brandId === "" || $categorieId === "") {
@@ -67,7 +67,7 @@ try {
         $stmt->execute([":n" => $newBrand]);
         $brandId = (int)$pdo->lastInsertId();
     }
-    if(!$CategorieId) {
+    if(!$categorieId) {
         $stmt = $pdo->prepare("INSERT INTO categories (name) VALUES (:n)");
         $stmt->execute([":n" => $newCategorie]);
         $categorieId = (int)$pdo->lastInsertId();
