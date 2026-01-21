@@ -131,7 +131,7 @@ include "include/header.php";
                 <p class="text-muted mb-4">Review moderation</p>
 
                 <div class="d-grid gap-2">
-                    <a href="admin.php" class="btn btn-outline-secondary">User management</a>
+                    <a href="adminUserManagement.php" class="btn btn-outline-secondary">User management</a>
                     <a href="index.php" class="btn btn-outline-secondary">Back to the homepage</a>
                 </div>
             </div>
