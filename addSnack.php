@@ -5,6 +5,8 @@ include "include/errorSucessPopups.php";
 
 $suggestBrand = isset($_GET['suggestBrand']);
 $suggestCategorie = isset($_GET['suggestCategorie']);
+
+$pdo = db();
 ?>
 
 
@@ -64,16 +66,14 @@ $suggestCategorie = isset($_GET['suggestCategorie']);
         <input type="file" name="image" class="form-control" id="image" accept="image/*">
     </div>
     
-    <?php if (!isset($_GET['suggest'])): ?>
-        <div class="mb-3">
-            <p1 class="small"> Cant find qhat you are looking for? Suggest new: </p1>
-            <p1 class="small"><u><a href="addSnack.php?suggestBrand<?= $suggestCategorie ? '&suggestCategorie' : '' ?>"> Brand </a></u></p1>
-            <p1 class="small">/</p1>
-            <p1 class="small"><u><a href="addSnack.php?suggestCategorie<?= $suggestBrand ? '&suggestBrand' : '' ?>"> Categorie </a></u></p1>
-        </div>
-    <?php endif; ?>
-
     <button type="submit" class="btn btn-primary">Submit</button>
+    
+    <div class="mx-auto" style="max-width: 520px;">
+        <div class="d-flex align-items-center justify-content-center bg-light border rounded p-3 mt-3 gap-2">
+            <p class="small text-muted mb-0">Can’t find what you’re looking for?</p>
+            <a href="suggestNew.php" class="btn btn-sm btn-outline-primary">Suggest new</a>
+        </div>
+    </div>
 </form>
 
 </body>

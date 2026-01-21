@@ -134,7 +134,7 @@ include "include/header.php";
 
                 <div class="d-grid gap-2">
                     <a href="adminUserManagement.php" class="btn btn-outline-secondary">User management</a>
-                    <a href="index.php" class="btn btn-outline-secondary">Back to the homepage</a>
+                    <a href="adminSuggestionReview.php" class="btn btn-outline-secondary">Suggestion review</a>
                 </div>
             </div>
 

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/include/config.php";
+require_once "include/config.php";
 
 require_login();
 require_admin();
@@ -126,20 +126,11 @@ include "include/header.php";
                 <p class="text-muted mb-4">User management</p>
 
                 <div class="d-grid gap-2">
-                    <a href="admin_reviews.php" class="btn btn-outline-secondary">Review moderation</a>
+                    <a href="adminPanel.php" class="btn btn-outline-secondary">Review moderation</a>
                     <a href="index.php" class="btn btn-outline-secondary">Back to homepage</a>
                 </div>
 
                 <hr>
-
-                <div class="text-start small text-muted">
-                    Actions:
-                    <ul class="mb-0">
-                        <li>Activate / deactivate</li>
-                        <li>Promote / demote</li>
-                        <li>Delete (with confirmation)</li>
-                    </ul>
-                </div>
             </div>
 
             <div class="col-md-9 ps-4">
@@ -225,9 +216,7 @@ include "include/header.php";
                                         <?php endif; ?>
 
                                         <a class="btn btn-sm btn-outline-danger <?= $isMe ? "disabled" : "" ?>"
-                                           href="adminUserManagement.php?confirm=<?= (int)$u["id"] ?>">
-                                            Delete
-                                        </a>
+                                           href="adminUserManagement.php?confirm=<?= (int)$u["id"] ?>">Delete</a>
                                     </form>
                                 </td>
                             </tr>
