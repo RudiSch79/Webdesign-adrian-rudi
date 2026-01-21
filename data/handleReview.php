@@ -12,6 +12,18 @@ $reviewId = isset($_POST['review_id']) ? (int)$_POST['review_id'] : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
+    //deleting review
+    if (isset($_POST['delete_review_id'])) {
+        $reviewIdToDelete = (int)$_POST['delete_review_id'];
+        $stmt = $pdo->prepare("DELETE FROM reviews WHERE id = :id");
+        $stmt->execute([
+            ':id' => $reviewIdToDelete
+        ]);
+        $_SESSION['success'] = "Review deleted successfully!";
+        header('Location: ../snackPage.php?id=' . $id);
+        exit();
+    }
+
     $title  = trim($_POST['title'] ?? '');
     $rating = ($_POST['rating'] ?? -1);
     $body   = trim($_POST['body'] ?? '');
@@ -34,14 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['error'] = "Only JPG, PNG, or WEBP images are allowed.";
             redirect('../review.php?id=' . $id);
         }
-
         $ext = $allowed[$mime];
-
-        // Ensure upload folder exists
-        $uploadDirFs = ROOT_PATH . "/data/uploads/reviews";
-        if (!is_dir($uploadDirFs)) {
-            mkdir($uploadDirFs, 0777, true);
-        }
 
         // Unique filename
         $filename = bin2hex(random_bytes(16)) . "." . $ext;
@@ -95,10 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ");
 
             $stmt->execute([
-                ':title'      => $title,
-                ':body'       => $body,
-                ':rating'     => $rating,
-                ':id'         => $reviewId
+                ':title' => $title,
+                ':body' => $body,
+                ':rating' => $rating,
+                ':id' => $reviewId
             ]);
 
                 $_SESSION['success'] = "Review updated successfully!";

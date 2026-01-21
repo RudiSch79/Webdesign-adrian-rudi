@@ -6,13 +6,21 @@
 ?>
 
 <div class="card mx-1 my-1 position-relative" style="width: 31rem;">
-  <!-- Dropdown-Button oben rechts -->
+  <!-- Dropdown-Button-->
   <div class="position-absolute top-0 end-0 p-2">
     <button class="btn btn-light btn-sm" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">...</button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <?php if ($review["user_id"] === $sessionUser["id"]): ?>
           <li><a class="dropdown-item" href="snackPage.php?id=<?= $snackId ?>&edit=<?= $review['id'] ?>">Edit</a></li>
-          <li><a class="dropdown-item" href="#">Delete</a></li>
+          <li>
+            <form method="POST" action="data/handleReview.php" style="display:inline;">
+              <input type="hidden" name="snack_id" value="<?= $snackId ?>">
+              <input type="hidden" name="delete_review_id" value="<?= $review["id"] ?>">
+              <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure?')">
+                Delete
+              </button>
+            </form>
+          </li>
         <?php else: ?>
           <li><a class="dropdown-item" href="#">Report</a></li>
         <?php endif; ?>
