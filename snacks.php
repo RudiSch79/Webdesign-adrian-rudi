@@ -8,6 +8,7 @@ $pdo = db();
 $brandID = isset($_GET['brand']) && $_GET['brand'] !== '' ? $_GET['brand'] : null;
 $categorieID = isset($_GET['categorie']) && $_GET['categorie'] !== '' ? $_GET['categorie'] : null;
 $searchQuery = isset($_GET['query']) && $_GET['query'] !== '' ? $_GET['query'] : null;
+$sort = isset($_GET['sort'])  && $_GET['sort'] !== '' ? $_GET['sort'] : null;
 
 $sql = "
     SELECT
@@ -22,6 +23,14 @@ $sql = "
     Join categories c ON c.id = s.categorie_id
     LEFT JOIN reviews r ON r.snack_id = s.id
 ";
+$orderBy = "s.created_at DESC";
+
+if ($sort === 'rating_asc') {
+    $orderBy = "avg_rating ASC";
+} elseif ($sort === 'rating_desc') {
+    $orderBy = "avg_rating DESC";
+}
+          
 
 $conditions = [];
 $params = [];
@@ -35,7 +44,7 @@ if ($categorieID !== null && $categorieID !== "" ) {
     $params[':categorieID'] = $categorieID;
 }
 if ($searchQuery !== null) {
-    $conditions[] = "s.name LIKE :searchQuery";
+    $conditions[] = "(s.name LIKE :searchQuery OR b.name LIKE :searchQuery)";
     $params[':searchQuery'] = "%" . $searchQuery . "%";
 }
 
@@ -43,9 +52,16 @@ if ($conditions) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
+$orderBy = "s.created_at DESC";
+if ($sort === 'rating_asc') {
+    $orderBy = "avg_rating ASC";
+} elseif ($sort === 'rating_desc') {
+    $orderBy = "avg_rating DESC";
+}
+
 $sql .= "
     GROUP BY s.id, s.name, s.image_path, b.name
-    ORDER BY s.created_at DESC
+    ORDER BY $orderBy
 ";
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
@@ -57,6 +73,8 @@ $rows = $stmt->fetchAll();
 <!-- filter -->
 <div class="container-lg my-4">
     <form method="GET" class="row g-2 align-items-center justify-content-center">
+        <input type="hidden" name="query" value="<?= htmlspecialchars($_GET['query'] ?? '') ?>">
+
         <div class="col-auto">
             <select name="brand" class="form-select">
                 <option value="">All Brands</option>
@@ -80,6 +98,14 @@ $rows = $stmt->fetchAll();
                     echo "<option value='{$cat['id']}' $selected>{$cat['name']}</option>";
                 }
                 ?>
+            </select>
+        </div>
+
+        <div class="col-auto">
+            <select name="sort" class="form-select">
+                <option value="">Sort by</option>
+                <option value="rating_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'rating_asc') ? 'selected' : '' ?>>Rating: Low to High</option>
+                <option value="rating_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'rating_desc') ? 'selected' : '' ?>>Rating: High to Low</option>
             </select>
         </div>
 
