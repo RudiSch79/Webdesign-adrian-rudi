@@ -1,7 +1,15 @@
 <?php
 include 'include/config.php';
 include 'include/header.php';
+
 ?>
+
+<?php if (isset($_SESSION['success'])): ?>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <?= e($_SESSION['success']) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php unset($_SESSION['success']); endif; ?>
 
 <body class="d-flex flex-column min-vh-100">
 
@@ -16,8 +24,8 @@ include 'include/header.php';
 
     <?php if (!isset($_GET['suggest'])): ?>
         <div class="mb-3">
-            <label for="brand" class="form-label">Brand</label>
-            <select name="brand" class="form-control" id="brand" required>
+            <label for="brandId" class="form-label">Brand</label>
+            <select name="brandId" class="form-control" id="brandId" required>
                 <option value="">Select a brand</option>
                 <?php
                 $brands = db_fetch_all("SELECT * FROM brands");
@@ -27,10 +35,9 @@ include 'include/header.php';
                 ?>
             </select>
         </div>
-
         <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select name="categorie" class="form-control" id="categorie" required>
+            <label for="categorieId" class="form-label">Categorie</label>
+            <select name="categorieId" class="form-control" id="categorieId" required>
                 <option value="">Select a categorie</option>
                 <?php
                 $categories = db_fetch_all("SELECT * FROM categories");
@@ -42,12 +49,12 @@ include 'include/header.php';
         </div>
     <?php else: ?>
         <div class="mb-3">
-            <label for="brand" class="form-label">Brand</label>
-            <input name="brand" class="form-control" id="brand" required>
+            <label for="newBrand" class="form-label">Brand</label>
+            <input name="newBrand" class="form-control" id="newBrand" required>
         </div>
         <div class="mb-3">
-            <label for="categorie" class="form-label">Categorie</label>
-            <input name="categorie" class="form-control" id="categorie" required>
+            <label for="newCategorie" class="form-label">Categorie</label>
+            <input name="newCategorie" class="form-control" id="newCategorie" required>
         </div>
     <?php endif; ?>
 
@@ -66,5 +73,6 @@ include 'include/header.php';
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+</body>
 
-</form>
+<?php include "include/footer.php"; ?>
