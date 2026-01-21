@@ -22,14 +22,20 @@ $sql = "
     LEFT JOIN reviews r ON r.snack_id = s.id
 ";
 
+$conditions = [];
 $params = [];
+
 if ($brandID !== null) {
-    $sql .= " WHERE b.id = :brandID";
+    $conditions[] = "b.id = :brandID";
     $params[':brandID'] = $brandID;
 }
 if ($categorieID !== null) {
-    $sql .= " WHERE c.id = :categorieID";
+    $conditions[] = "c.id = :categorieID";
     $params[':categorieID'] = $categorieID;
+}
+
+if ($conditions) {
+    $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
 $sql .= "
@@ -43,9 +49,49 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body class="d-flex flex-column min-vh-100">
 
+<!-- filter -->
+<div class="container-lg my-4">
+    <form method="GET" class="row g-2 align-items-center justify-content-center">
+        <div class="col-auto">
+            <select name="brand" class="form-select">
+                <option value="">All Brands</option>
+                <?php
+                $brands = $pdo->query("SELECT id, name FROM brands")->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($brands as $brand) {
+                    $selected = ($brandID == $brand['id']) ? 'selected' : '';
+                    echo "<option value='{$brand['id']}' $selected>{$brand['name']}</option>";
+                }
+                ?>
+            </select>
+        </div>
+
+        <div class="col-auto">
+            <select name="categorie" class="form-select">
+                <option value="">All Categories</option>
+                <?php
+                $categories = $pdo->query("SELECT id, name FROM categories")->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($categories as $cat) {
+                    $selected = ($categorieID == $cat['id']) ? 'selected' : '';
+                    echo "<option value='{$cat['id']}' $selected>{$cat['name']}</option>";
+                }
+                ?>
+            </select>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </form>
+</div>
+
+
 <div class="d-flex flex-column align-items-center">
     <div class="container-lg row row-2 justify-content-center">
-        <?php
+        <?php if (!$rows): ?>
+            <div class="col-12 text-center my-5">
+                <p class="text-muted">No result for this filter. Be the first to create one!</p>
+            </div>
+    <?php else:
         foreach ($rows as $row) {
             $snack = [
                 'id'     => $row['id'],
@@ -57,7 +103,8 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             include "include/snackCard.php";
         }
-        ?>
+    ?>
+    <?php endif; ?>
     </div>
 </div>
 
