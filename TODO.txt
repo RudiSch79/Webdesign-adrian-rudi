@@ -8,3 +8,5 @@ mehr reien anzeigen am anfang
 neue kategorien und marken hinzufügen können(eventuell mit admin approval)
 
 farben von standard bootstrap preset ändern
+
+datum zur snack page hinzufügen

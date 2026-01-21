@@ -6,10 +6,9 @@ require_login();
 $pdo  = db();
 $user = current_user();
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if ($id <= 0) {
-    redirect("../snacks.php");
-}
+$id = $_POST['snack_id'];
+if ($id <= 0) redirect("../snacks.php");
+$reviewId = isset($_POST['review_id']) ? (int)$_POST['review_id'] : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
@@ -61,29 +60,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if ($title === '' || $body === '' || $rating <= 0 || $rating >= 5) {
-        $_SESSION['error'] = "Please fill everything correctly (rating 1-5).";
-        redirect('../review.php?id=' . $id);
+    if ($title === '' || $body === '' || $rating < 0 || $rating > 5) {
+        $_SESSION['error'] = "Please fill everything correctly (rating 0-5).";
+        redirect('../snackPage.php?id=' . $id);
     }
 
     try {
-        $stmt = $pdo->prepare("
-            INSERT INTO reviews (snack_id, user_id, title, body, rating, image_path)
-            VALUES (:snack_id, :user_id, :title, :body, :rating, :image_path)
-        ");
+        if ($reviewId === null){
+            $stmt = $pdo->prepare("
+                INSERT INTO reviews (snack_id, user_id, title, body, rating, image_path)
+                VALUES (:snack_id, :user_id, :title, :body, :rating, :image_path)
+            ");
 
-        $stmt->execute([
-            ':snack_id' => $id,
-            ':user_id'  => (int)$user['id'],
-            ':title'    => $title,
-            ':body'     => $body,
-            ':rating'   => $rating,
-            ':image_path' => $imagePath
-        ]);
+            $stmt->execute([
+                ':snack_id' => $id,
+                ':user_id'  => (int)$user['id'],
+                ':title'    => $title,
+                ':body'     => $body,
+                ':rating'   => $rating,
+                ':image_path' => $imagePath
+            ]);
 
-        $_SESSION['success'] = "Review added successfully!";
-        header('Location: ../snackPage.php?id=' . $id);
-        exit();
+            $_SESSION['success'] = "Review added successfully!";
+            header('Location: ../snackPage.php?id=' . $id);
+            exit();
+        }
+        else {
+            $stmt = $pdo->prepare("
+                UPDATE reviews
+                SET title = :title,
+                    body = :body,
+                    rating = :rating
+                WHERE id = :id
+            ");
+
+            $stmt->execute([
+                ':title'      => $title,
+                ':body'       => $body,
+                ':rating'     => $rating,
+                ':id'         => $reviewId
+            ]);
+
+                $_SESSION['success'] = "Review updated successfully!";
+            }
+        redirect('../snackPage.php?id=' . $id);
 
     } catch (Throwable $e) {
         $_SESSION['error'] = "Could not add review (maybe you already reviewed this snack).";

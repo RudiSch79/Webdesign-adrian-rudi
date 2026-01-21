@@ -9,7 +9,7 @@ $pdo = db();
 
 $snackId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($snackId <= 0) {
-    redirect("snacks.php");
+redirect("snacks.php");
 }
 
 $stmt = $pdo->prepare("
@@ -40,7 +40,7 @@ if (!$snack) {
       <h1 class="display-4"><?= e($snack['brand_name']) ?></h1>
 
       <form method="POST"
-            action="data/handleReview.php?id=<?= (int)$snack['id'] ?>"
+            action="data/handleReview.php"
             enctype="multipart/form-data">
 
         <div class="mt-5 mb-4">
@@ -62,6 +62,7 @@ if (!$snack) {
             <label for="image" class="form-label">Image</label>
             <input type="file" name="image" class="form-control" id="image" accept="image/*">
         </div>
+        <input type="hidden" name="snack_id" value="<?= (int)$snackId ?>">
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
