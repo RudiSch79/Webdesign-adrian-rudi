@@ -7,6 +7,7 @@ $pdo = db();
 
 $brandID = isset($_GET['brand']) && $_GET['brand'] !== '' ? $_GET['brand'] : null;
 $categorieID = isset($_GET['categorie']) && $_GET['categorie'] !== '' ? $_GET['categorie'] : null;
+$searchQuery = isset($_GET['query']) && $_GET['query'] !== '' ? $_GET['query'] : null;
 
 $sql = "
     SELECT
@@ -32,6 +33,10 @@ if ($brandID !== null) {
 if ($categorieID !== null && $categorieID !== "" ) {
     $conditions[] = "c.id = :categorieID";
     $params[':categorieID'] = $categorieID;
+}
+if ($searchQuery !== null) {
+    $conditions[] = "s.name LIKE :searchQuery";
+    $params[':searchQuery'] = "%" . $searchQuery . "%";
 }
 
 if ($conditions) {
@@ -89,7 +94,8 @@ $rows = $stmt->fetchAll();
     <div class="container-lg row row-2 justify-content-center">
         <?php if (!$rows): ?>
             <div class="col-12 text-center my-5">
-                <p class="text-muted">No result for this filter. Be the first to create one!</p>
+                <p class="text-muted">No result found. Be the first to create one!</p>
+                <a href="/Webdesign-Adrian-Rudi/snacks.php" class="btn btn-primary">Show all Snacks</a>
             </div>
     <?php else:
         foreach ($rows as $row) {

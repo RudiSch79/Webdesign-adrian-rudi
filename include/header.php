@@ -22,14 +22,17 @@ $username = $isLoggedIn ? $user["username"] : "";
 
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="./forum.php">Forum</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="./snacks.php">Reviews</a>
         </li>
       </ul>
 
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item mx-3 d-flex align-items-center">
+          <form method="GET" action="/Webdesign-Adrian-Rudi/snacks.php" class="d-flex align-items-center">
+              <input class="form-control me-2" type="text" name="query" placeholder="Search..." required>
+              <button class="btn btn-outline-light" type="submit">Search</button>
+          </form>
+        </li>
 
         <?php if (!$isLoggedIn): ?>
           <li class="nav-item">
