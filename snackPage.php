@@ -6,9 +6,22 @@ include "include/errorSucessPopups.php";
 $pdo = db();
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if ($id <= 0) {
-    redirect("snacks.php");
+if ($id <= 0)redirect("snacks.php");
+
+$recentPages = [];
+if (isset($_COOKIE['recentPages'])) {
+    $recentPages = json_decode($_COOKIE['recentPages'], true);
+    if (!is_array($recentPages)) {
+        $recentPages = [];
+    }
 }
+$recentPages = array_filter($recentPages, function($page) use ($id) {
+    return $page !== $id;
+});
+array_unshift($recentPages, $id);
+$recentPages = array_slice($recentPages, 0, 4);
+setcookie('recentPages', json_encode($recentPages));
+
 
 $stmt = $pdo->prepare("
     SELECT

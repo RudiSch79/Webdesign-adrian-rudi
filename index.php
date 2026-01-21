@@ -30,6 +30,7 @@ include "include/header.php";
             <hr class="border-4 border-dark my-5">
 
             <?php include "include/snackCardsTopRated.php"; ?>
+            <?php include "include/snackCardsRecent.php"; ?>
 
         </div>
     </main>
