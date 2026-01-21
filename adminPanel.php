@@ -19,6 +19,7 @@ if ($confirmId > 0) {
             r.title,
             r.body,
             r.rating,
+            r.image_path,
             r.created_at,
             u.username,
             s.name AS snack_name,
@@ -74,6 +75,7 @@ $stmt = $pdo->query("
         r.title,
         r.rating,
         r.body,
+        r.image_path,
         r.created_at,
         u.username,
         s.name AS snack_name,
@@ -148,18 +150,33 @@ include "include/header.php";
                                 <th>Title</th>
                                 <th>Body</th>
                                 <th>Rating</th>
+                                <th>Photo</th>
                                 <th>Created</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($reviews as $r): ?>
+                        <?php 
+                            foreach ($reviews as $r): ?>
                             <tr>
                                 <td><?= e($r["brand_name"] . " " . $r["snack_name"]) ?></td>
                                 <td><?= e($r["username"]) ?></td>
                                 <td><?= e($r["title"]) ?></td>
                                 <td><?= e($r["body"]) ?></td>
                                 <td><?= e((string)$r["rating"]) ?></td>
+                                <td style="width:70px;">
+                                    <?php if ($r["image_path"] !== null): ?>
+                                        <img src="<?= e($r["image_path"]) ?>" alt="image"
+                                        width="40" height="40"
+                                        class="rounded-circle"
+                                        style="object-fit:cover;">
+                                    <?php else: ?>
+                                        <img src=data/uploads/reviews/Image-not-found.png alt="image"
+                                        width="40" height="40"
+                                        class="rounded-circle"
+                                        style="object-fit:cover;">
+                                    <?php endif; ?>
+                                </td>
                                 <td class="text-muted small"><?= e($r["created_at"]) ?></td>
                                 <td class="text-end">
                                     <a class="btn btn-sm btn-outline-danger"
