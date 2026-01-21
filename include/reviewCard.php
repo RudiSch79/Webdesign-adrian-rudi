@@ -67,7 +67,7 @@
         </div>
         <?php if ($review['image_path'] !== null): ?>
           <div class="col-3">
-            <img src="<?= $review['image_path'] ?>" class="card-img-top img-fluid col" style="width:100px; object-fit:contain;" alt="...">
+            <img src="<?= $review['image_path'] ?>" class="card-img-top img-fluid col rounded"  style="width:100px; object-fit:contain;" alt="...">
           </div>
         <?php endif; ?>
       </div>

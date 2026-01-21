@@ -27,7 +27,7 @@
             ORDER BY FIELD(s.id, $ids)
         ");
 
-        $snacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $snacks = $stmt->fetchAll();
 
         foreach ($snacks as $snack) {
             $snack = [
