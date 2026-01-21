@@ -1,17 +1,12 @@
 <?php
 include 'include/config.php';
 include 'include/header.php';
+include "include/errorSucessPopups.php";
 
 $suggestBrand = isset($_GET['suggestBrand']);
 $suggestCategorie = isset($_GET['suggestCategorie']);
 ?>
 
-<?php if (isset($_SESSION['success'])): ?>
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <?= e($_SESSION['success']) ?>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-<?php unset($_SESSION['success']); endif; ?>
 
 <body class="d-flex flex-column min-vh-100">
 

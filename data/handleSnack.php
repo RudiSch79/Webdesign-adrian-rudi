@@ -16,12 +16,12 @@ $newCategorie = trim($_POST["newCategorie"]);
 
 
 if ($name === "" || $brandId === "" || $categorieId === "") {
-    $_SESSION["success"] = "Please fill in all fields.";
+    $_SESSION["error"] = "Please fill in all fields.";
     redirect("../addSnack.php");
 }
 
 if (!isset($_FILES["image"]) || $_FILES["image"]["error"] !== UPLOAD_ERR_OK) {
-    $_SESSION["success"] = "Image upload failed.";
+    $_SESSION["error"] = "Image upload failed.";
     redirect("../addSnack.php");
 }
 
@@ -37,7 +37,7 @@ $allowed = [
 ];
 
 if (!isset($allowed[$mime])) {
-    $_SESSION["success"] = "Only JPG, PNG, or WEBP images are allowed.";
+    $_SESSION["error"] = "Only JPG, PNG, or WEBP images are allowed.";
     redirect("../addSnack.php");
 }
 
@@ -54,7 +54,7 @@ $destFs   = $uploadDirFs . "/" . $filename;
 $imagePath = "data/uploads/snacks/" . $filename;
 
 if (!move_uploaded_file($tmpPath, $destFs)) {
-    $_SESSION["success"] = "Could not save uploaded image.";
+    $_SESSION["error"] = "Could not save uploaded image.";
     redirect("../addSnack.php");
 }
 
@@ -97,6 +97,6 @@ try {
         @unlink($destFs);
     }
 
-    $_SESSION["success"] = "Could not add snack (maybe duplicate name for that brand).";
+    $_SESSION["error"] = "Could not add snack (maybe duplicate name for that brand).";
     redirect("../snacks.php");
 }
