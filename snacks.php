@@ -5,8 +5,8 @@ include "include/errorSucessPopups.php";
 
 $pdo = db();
 
-$brandID = isset($_GET['brand']) ? (int)$_GET['brand'] : null;
-$categorieID = isset($_GET['categorie']) ? (int)$_GET['categorie'] : null;
+$brandID = isset($_GET['brand']) && $_GET['brand'] !== '' ? $_GET['brand'] : null;
+$categorieID = isset($_GET['categorie']) && $_GET['categorie'] !== '' ? $_GET['categorie'] : null;
 
 $sql = "
     SELECT
@@ -29,7 +29,7 @@ if ($brandID !== null) {
     $conditions[] = "b.id = :brandID";
     $params[':brandID'] = $brandID;
 }
-if ($categorieID !== null) {
+if ($categorieID !== null && $categorieID !== "" ) {
     $conditions[] = "c.id = :categorieID";
     $params[':categorieID'] = $categorieID;
 }
@@ -56,7 +56,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <select name="brand" class="form-select">
                 <option value="">All Brands</option>
                 <?php
-                $brands = $pdo->query("SELECT id, name FROM brands")->fetchAll(PDO::FETCH_ASSOC);
+                $brands = db_fetch_all("SELECT id, name FROM brands");
                 foreach ($brands as $brand) {
                     $selected = ($brandID == $brand['id']) ? 'selected' : '';
                     echo "<option value='{$brand['id']}' $selected>{$brand['name']}</option>";
@@ -69,7 +69,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <select name="categorie" class="form-select">
                 <option value="">All Categories</option>
                 <?php
-                $categories = $pdo->query("SELECT id, name FROM categories")->fetchAll(PDO::FETCH_ASSOC);
+                $categories = db_fetch_all("SELECT id, name FROM categories");
                 foreach ($categories as $cat) {
                     $selected = ($categorieID == $cat['id']) ? 'selected' : '';
                     echo "<option value='{$cat['id']}' $selected>{$cat['name']}</option>";
