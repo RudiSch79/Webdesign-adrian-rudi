@@ -1,10 +1,5 @@
-
-reviews unter account azeigen
-reviews mit bilder darstellen
 reviews löschen/bearbeiten
 review antworten
-
-snack categorie anzeigen
 
 eaten+1 hinufügen auf profil
 

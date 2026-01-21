@@ -231,6 +231,15 @@ include "include/header.php";
 
         </div>
     </div>
+    
+    <h1 class="display-4 fw-bold">My Reviews:</h1>
+    <div class="container-fluid d-flex flex-wrap justify-content-center">
+        <?php
+        $reviews = db_fetch_all("SELECT * FROM reviews WHERE user_id = " .$userId);
+        foreach ($reviews as $review):
+            include "include/reviewCard.php"; ?>
+        <?php endforeach; ?>
+    </div>
 
 </div>
 </main>

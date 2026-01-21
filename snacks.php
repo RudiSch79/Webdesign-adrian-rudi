@@ -44,7 +44,7 @@ $sql .= "
 ";
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$rows = $stmt->fetchAll();
 ?>
 
 <body class="d-flex flex-column min-vh-100">
