@@ -25,7 +25,7 @@ $suggestCategorie = isset($_GET['suggestCategorie']);
             <select name="brandId" class="form-control" id="brandId" required>
                 <option value="">Select a brand</option>
                 <?php
-                $brands = db_fetch_all("SELECT * FROM brands");
+                $brands = db_fetch_all("SELECT * FROM brands ORDER BY name asc");
                 foreach ($brands as $brand) {
                     echo '<option value="' . htmlspecialchars($brand['id']) . '">' . htmlspecialchars($brand['name']) . '</option>';
                 }
@@ -45,7 +45,7 @@ $suggestCategorie = isset($_GET['suggestCategorie']);
             <select name="categorieId" class="form-control" id="categorieId" required>
                 <option value="">Select a categorie</option>
                 <?php
-                $categories = db_fetch_all("SELECT * FROM categories");
+                $categories = db_fetch_all("SELECT * FROM categories ORDER BY name asc");
                 foreach ($categories as $categorie) {
                     echo '<option value="' . htmlspecialchars($categorie['id']) . '">' . htmlspecialchars($categorie['name']) . '</option>';
                 }

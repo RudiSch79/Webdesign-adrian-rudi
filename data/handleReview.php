@@ -14,7 +14,7 @@ if ($id <= 0) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $title  = trim($_POST['title'] ?? '');
-    $rating = (int)($_POST['rating'] ?? -1);
+    $rating = ($_POST['rating'] ?? -1);
     $body   = trim($_POST['body'] ?? '');
     $image = $_FILES['image'];
 
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if ($title === '' || $body === '' || $rating < 0 || $rating > 5) {
+    if ($title === '' || $body === '' || $rating <= 0 || $rating >= 5) {
         $_SESSION['error'] = "Please fill everything correctly (rating 1-5).";
         redirect('../review.php?id=' . $id);
     }
