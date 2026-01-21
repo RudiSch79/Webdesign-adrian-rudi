@@ -1,5 +1,6 @@
 <?php
 require_once "include/config.php";
+include "include/header.php";
 include "include/errorSucessPopups.php";
 
 $pdo = db();
@@ -20,7 +21,7 @@ $stmt = $pdo->query("
 ");
 $rows = $stmt->fetchAll();
 
-include __DIR__ . "/include/header.php";
+
 ?>
 
 <body class="d-flex flex-column min-vh-100">
