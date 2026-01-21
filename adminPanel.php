@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/include/config.php";
+require_once "include/config.php";
 
 require_login();
 require_admin();
@@ -9,6 +9,36 @@ $pdo = db();
 $message = "";
 $error = "";
 
+$confirmId = isset($_GET["confirm"]) ? (int)$_GET["confirm"] : 0;
+$confirmReview = null;
+
+if ($confirmId > 0) {
+    $stmt = $pdo->prepare("
+        SELECT
+            r.id,
+            r.title,
+            r.body,
+            r.rating,
+            r.created_at,
+            u.username,
+            s.name AS snack_name,
+            b.name AS brand_name
+        FROM reviews r
+        JOIN users u  ON u.id = r.user_id
+        JOIN snacks s ON s.id = r.snack_id
+        JOIN brands b ON b.id = s.brand_id
+        WHERE r.id = :id
+        LIMIT 1
+    ");
+    $stmt->execute([":id" => $confirmId]);
+    $confirmReview = $stmt->fetch();
+
+    if (!$confirmReview) {
+        $error = "Review not found.";
+        $confirmId = 0;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? "") === "delete_review") {
     $reviewId = (int)($_POST["review_id"] ?? 0);
 
@@ -16,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? "") === "delet
         $error = "Invalid review.";
     } else {
         try {
+
             $stmt = $pdo->prepare("SELECT image_path FROM reviews WHERE id = :id LIMIT 1");
             $stmt->execute([":id" => $reviewId]);
             $imagePath = $stmt->fetchColumn();
@@ -70,6 +101,28 @@ include "include/header.php";
         <div class="alert alert-danger"><?= e($error) ?></div>
     <?php endif; ?>
 
+    <?php if ($confirmReview): ?>
+        <div class="card shadow-sm p-4 mb-4 border-danger">
+            <h5 class="mb-2">Confirm delete</h5>
+            <p class="mb-3">
+                You are about to delete this review:
+                <br><strong><?= e($confirmReview["brand_name"] . " " . $confirmReview["snack_name"]) ?></strong>
+                <br>By: <strong><?= e($confirmReview["username"]) ?></strong>
+                <br>Title: <strong><?= e($confirmReview["title"]) ?></strong>
+            </p>
+
+            <div class="d-flex gap-2">
+                <a href="adminPanel.php" class="btn btn-outline-secondary">Cancel</a>
+
+                <form method="POST" class="m-0">
+                    <input type="hidden" name="action" value="delete_review">
+                    <input type="hidden" name="review_id" value="<?= (int)$confirmReview["id"] ?>">
+                    <button class="btn btn-danger">Yes, delete</button>
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="card shadow-sm p-4">
         <div class="row">
 
@@ -109,14 +162,10 @@ include "include/header.php";
                                 <td><?= e((string)$r["rating"]) ?></td>
                                 <td class="text-muted small"><?= e($r["created_at"]) ?></td>
                                 <td class="text-end">
-                                    <form method="POST" class="d-inline">
-                                        <input type="hidden" name="action" value="delete_review">
-                                        <input type="hidden" name="review_id" value="<?= (int)$r["id"] ?>">
-                                        <button class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Delete this review?')">
-                                            Delete
-                                        </button>
-                                    </form>
+                                    <a class="btn btn-sm btn-outline-danger"
+                                       href="adminPanel.php?confirm=<?= (int)$r["id"] ?>">
+                                        Delete
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -132,4 +181,4 @@ include "include/header.php";
 </div>
 </main>
 
-<?php include __DIR__ . "/include/footer.php"; ?>
+<?php include "include/footer.php"; ?>
