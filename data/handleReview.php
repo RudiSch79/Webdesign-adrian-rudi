@@ -14,7 +14,7 @@ if ($id <= 0) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $title  = trim($_POST['title'] ?? '');
-    $rating = (int)($_POST['rating'] ?? -1);
+    $rating = ($_POST['rating'] ?? -1);
     $body   = trim($_POST['body'] ?? '');
     $image = $_FILES['image'];
 
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         if (!isset($allowed[$mime])) {
-            $_SESSION['success'] = "Only JPG, PNG, or WEBP images are allowed.";
+            $_SESSION['error'] = "Only JPG, PNG, or WEBP images are allowed.";
             redirect('../review.php?id=' . $id);
         }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destFs   = $uploadDirFs . "/" . $filename;
 
         if (!move_uploaded_file($tmpPath, $destFs)) {
-            $_SESSION['success'] = "Could not save uploaded image.";
+            $_SESSION['error'] = "Could not save uploaded image.";
             redirect('../review.php?id=' . $id);
         }
 
@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if ($title === '' || $body === '' || $rating < 0 || $rating > 5) {
-        $_SESSION['success'] = "Please fill everything correctly (rating 1-5).";
+    if ($title === '' || $body === '' || $rating <= 0 || $rating >= 5) {
+        $_SESSION['error'] = "Please fill everything correctly (rating 1-5).";
         redirect('../review.php?id=' . $id);
     }
 
@@ -86,8 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
 
     } catch (Throwable $e) {
-        $_SESSION['success'] = "Could not add review (maybe you already reviewed this snack).";
-        header('Location: ../snackPage.php?id=' . $id);
+        $_SESSION['error'] = "Could not add review (maybe you already reviewed this snack).";
+        header('Location: ../review.php?id=' . $id);
         exit();
     }
 }

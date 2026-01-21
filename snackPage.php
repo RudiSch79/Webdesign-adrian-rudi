@@ -1,6 +1,7 @@
 <?php
 require_once "include/config.php";
 include "include/header.php";
+include "include/errorSucessPopups.php";
 
 $pdo = db();
 
@@ -16,11 +17,13 @@ $stmt = $pdo->prepare("
         s.description,
         s.image_path,
         b.name AS brand_name,
+        c.name AS categorie_name,
         ROUND(AVG(r.rating), 2) AS avg_rating,
         COUNT(r.id) AS review_count
     FROM snacks s
     JOIN brands b ON b.id = s.brand_id
     LEFT JOIN reviews r ON r.snack_id = s.id
+    LEFT JOIN categories c ON  c.id = s.categorie_id
     WHERE s.id = :id
     GROUP BY s.id, s.name, s.description, s.image_path, b.name
     LIMIT 1
@@ -52,14 +55,6 @@ $reviews = db_fetch_all("SELECT * FROM reviews WHERE snack_id = :id", ['id' => $
 $user = current_user();
 ?>
 
-
-<?php if (isset($_SESSION['success'])): ?>
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <?= e($_SESSION['success']) ?>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-<?php unset($_SESSION['success']); endif; ?>
-
 <body class="d-flex flex-column min-vh-100">
     <div class="container-fluid row my-5">
         <div class="col-5">
@@ -69,6 +64,7 @@ $user = current_user();
         <div class="col pt-5">
             <h1 class="display-1 fw-bold"><?= e($snack['name']) ?></h1>
             <h1 class="display-3"><?= e($snack['brand_name']) ?></h1>
+            <p class="fs-5 fw-light"><?= e($snack['categorie_name']) ?><p>
 
             <div class="d-flex justify-content-start mb-3">
                 <img src="data/images/star.png"
@@ -82,12 +78,12 @@ $user = current_user();
             <div class="my-5">
                 <?php if ($user): ?>
                     <div class="d-flex space">
-                        <a href="review.php?id=<?= (int)$snack['id'] ?>" class="btn btn-lg btn-primary me-4">Write Review</a>
+                        <a href="review.php?id=<?= $snack['id'] ?>" class="btn btn-lg btn-primary me-4">Write Review</a>
                         <a href="#" class="btn btn-lg btn-primary">Eaten +1</a>
                     </div>
                 <?php else: ?>
                     <div class="d-flex space">
-                        <a href="review.php?id=<?= (int)$snack['id'] ?>" class="btn btn-lg btn-secondary me-4 disabled">Write Review</a>
+                        <a href="review.php?id=<?= $snack['id'] ?>" class="btn btn-lg btn-secondary me-4 disabled">Write Review</a>
                         <a href="#" class="btn btn-lg btn-secondary disabled">Eaten +1</a>
                     </div>
                     <p class="my-2 fw-bold">Login or create account to review/track</p>

@@ -1,5 +1,7 @@
 <?php
 require_once "include/config.php";
+include "include/header.php";
+include "include/errorSucessPopups.php";
 
 require_login();
 
@@ -24,7 +26,6 @@ if (!$snack) {
     redirect("snacks.php");
 }
 
-include "include/header.php";
 ?>
 
 <body class="d-flex flex-column">

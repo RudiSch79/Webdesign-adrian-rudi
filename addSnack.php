@@ -1,7 +1,12 @@
 <?php
 include 'include/config.php';
 include 'include/header.php';
+include "include/errorSucessPopups.php";
+
+$suggestBrand = isset($_GET['suggestBrand']);
+$suggestCategorie = isset($_GET['suggestCategorie']);
 ?>
+
 
 <body class="d-flex flex-column min-vh-100">
 
@@ -13,39 +18,64 @@ include 'include/header.php';
         <input name="name" class="form-control" id="name" required>
     </div>
 
-    <div class="mb-3">
-        <label for="brand" class="form-label">Brand</label>
-        <select name="brand" class="form-control" id="brand" required>
-            <option value="">Select a brand</option>
-            <?php
-            $brands = db_fetch_all("SELECT * FROM brands");
-            foreach ($brands as $brand) {
-                echo '<option value="' . htmlspecialchars($brand['id']) . '">' . htmlspecialchars($brand['name']) . '</option>';
-            }
-            ?>
-        </select>
-    </div>
 
-    <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <select name="categorie" class="form-control" id="categorie" required>
-            <option value="">Select a categorie</option>
-            <?php
-            $categories = db_fetch_all("SELECT * FROM categories");
-            foreach ($categories as $categorie) {
-                echo '<option value="' . htmlspecialchars($categorie['id']) . '">' . htmlspecialchars($categorie['name']) . '</option>';
-            }
-            ?>
-        </select>
-    </div>
+    <?php if (!$suggestBrand): ?>
+        <div class="mb-3">
+            <label for="brandId" class="form-label">Brand</label>
+            <select name="brandId" class="form-control" id="brandId" required>
+                <option value="">Select a brand</option>
+                <?php
+                $brands = db_fetch_all("SELECT * FROM brands ORDER BY name asc");
+                foreach ($brands as $brand) {
+                    echo '<option value="' . htmlspecialchars($brand['id']) . '">' . htmlspecialchars($brand['name']) . '</option>';
+                }
+                ?>
+            </select>
+        </div>
+    <?php else: ?>
+        <div class="mb-3">
+            <label for="newBrand" class="form-label">Brand</label>
+            <input name="newBrand" class="form-control" id="newBrand" required>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!$suggestCategorie): ?>
+        <div class="mb-3">
+            <label for="categorieId" class="form-label">Categorie</label>
+            <select name="categorieId" class="form-control" id="categorieId" required>
+                <option value="">Select a categorie</option>
+                <?php
+                $categories = db_fetch_all("SELECT * FROM categories ORDER BY name asc");
+                foreach ($categories as $categorie) {
+                    echo '<option value="' . htmlspecialchars($categorie['id']) . '">' . htmlspecialchars($categorie['name']) . '</option>';
+                }
+                ?>
+            </select>
+        </div>
+    <?php else: ?>
+        <div class="mb-3">
+            <label for="newCategorie" class="form-label">Categorie</label>
+            <input name="newCategorie" class="form-control" id="newCategorie" required>
+        </div>
+    <?php endif; ?>
 
     <div class="mb-3">
         <label for="image" class="form-label">Image</label>
         <input type="file" name="image" class="form-control" id="image" accept="image/*">
     </div>
+    
+    <?php if (!isset($_GET['suggest'])): ?>
+        <div class="mb-3">
+            <p1 class="small"> Cant find qhat you are looking for? Suggest new: </p1>
+            <p1 class="small"><u><a href="addSnack.php?suggestBrand<?= $suggestCategorie ? '&suggestCategorie' : '' ?>"> Brand </a></u></p1>
+            <p1 class="small">/</p1>
+            <p1 class="small"><u><a href="addSnack.php?suggestCategorie<?= $suggestBrand ? '&suggestBrand' : '' ?>"> Categorie </a></u></p1>
+        </div>
+    <?php endif; ?>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+</body>
 
-</form>
+<?php include "include/footer.php"; ?>

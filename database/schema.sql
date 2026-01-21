@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 20, 2026 at 08:47 PM
+-- Generation Time: Jan 21, 2026 at 02:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,9 @@ CREATE TABLE `brands` (
 --
 
 INSERT INTO `brands` (`id`, `name`, `created_at`) VALUES
-(1, 'Doritos', '2026-01-20 19:43:28');
+(1, 'Doritos', '2026-01-20 19:43:28'),
+(7, 'Aunt Nelly', '2026-01-21 13:36:21'),
+(8, 'Haribo', '2026-01-21 13:51:12');
 
 -- --------------------------------------------------------
 
@@ -57,7 +59,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
-(1, 'Crisps', '2026-01-20 19:43:37');
+(1, 'Crisps', '2026-01-20 19:43:37'),
+(5, 'Hard Boiled Sweet', '2026-01-21 13:36:21'),
+(6, 'Gummy bears', '2026-01-21 13:51:12');
 
 -- --------------------------------------------------------
 
@@ -71,11 +75,20 @@ CREATE TABLE `reviews` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(160) NOT NULL,
   `body` text NOT NULL,
-  `rating` tinyint(3) UNSIGNED NOT NULL,
+  `rating` decimal(3,1) UNSIGNED NOT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `snack_id`, `user_id`, `title`, `body`, `rating`, `image_path`, `created_at`, `updated_at`) VALUES
+(11, 8, 1, 'Very Sweet but delicious', 'I like the taste of the aunt nellie sweet its a bit sour with a good mix of sweetness. I remmoned it to others.', 4.2, 'data/uploads/reviews/87976cafec10dfe2811abee1de19a0c5.jpg', '2026-01-21 13:38:27', '2026-01-21 13:43:47'),
+(12, 20, 1, 'Aller Besten Haribo', 'Pico-Balla sind einfach ein klassiker. Ich geniesse sie jedes mal aufs neue, mhmm lecker.', 4.8, 'data/uploads/reviews/b4c093eaa8d429f80d1cf00855447572.jpg', '2026-01-21 13:58:15', '2026-01-21 13:58:46'),
+(13, 22, 1, 'Leckerer Snack', 'kann man zwischendurch gut essen', 4.0, 'data/uploads/reviews/98091d59722744bf2a3fa8ed09ef05a1.jpg', '2026-01-21 14:00:06', '2026-01-21 14:00:06');
 
 -- --------------------------------------------------------
 
@@ -113,8 +126,19 @@ CREATE TABLE `snacks` (
 --
 
 INSERT INTO `snacks` (`id`, `brand_id`, `name`, `description`, `categorie_id`, `image_path`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Cool Ranch', NULL, 1, 'data/uploads/snacks/32e5f09d1d6212b35f8b68fdfbf27b1d.png', '2026-01-20 20:14:49', '2026-01-20 20:14:49'),
-(2, 1, 'Spicy Nacho', NULL, 1, 'data/uploads/snacks/fb2b469c6710fa4fa9644e02d64d0123.jpg', '2026-01-20 20:34:52', '2026-01-20 20:34:52');
+(8, 7, 'Apple Drops', NULL, 5, 'data/uploads/snacks/eb8d1068f26b21507273c80ed5ff7ddc.jpg', '2026-01-21 13:36:21', '2026-01-21 13:36:21'),
+(9, 1, 'Classic Ketchup', NULL, 1, 'data/uploads/snacks/b25e2f0a7510ef76324b25441a77ce40.jpg', '2026-01-21 13:46:33', '2026-01-21 13:46:33'),
+(10, 1, 'Sweet Chilli', NULL, 1, 'data/uploads/snacks/09c3c68247226c2bc8210c0a0efa8f40.jpg', '2026-01-21 13:47:08', '2026-01-21 13:47:08'),
+(12, 1, 'Poppin Jalapeno', NULL, 1, 'data/uploads/snacks/c3a351e9b4082e2a696ad7bfaf82a5a9.png', '2026-01-21 13:47:50', '2026-01-21 13:47:50'),
+(13, 1, 'Original Salted', NULL, 1, 'data/uploads/snacks/14281a459ee13d538aad1a33c13e9c34.jpg', '2026-01-21 13:48:28', '2026-01-21 13:48:28'),
+(15, 8, 'Goldbären', NULL, 6, 'data/uploads/snacks/aaea8412735c0985c4323f850619f378.jpg', '2026-01-21 13:51:35', '2026-01-21 13:51:35'),
+(16, 8, 'Kinder Schnuller', NULL, 6, 'data/uploads/snacks/ad287a7d115a7c2c6bcb02b2ffab7f3b.jpg', '2026-01-21 13:51:59', '2026-01-21 13:51:59'),
+(17, 8, 'Tropifrutti', NULL, 6, 'data/uploads/snacks/66ff8ec99673bd2332e390610bcd4e34.jpg', '2026-01-21 13:52:24', '2026-01-21 13:52:24'),
+(18, 8, 'Balla-Balla', NULL, 6, 'data/uploads/snacks/b3708c7f91e737c51be0aa015fefb0c9.jpg', '2026-01-21 13:52:58', '2026-01-21 13:52:58'),
+(19, 8, 'Quaxi', NULL, 6, 'data/uploads/snacks/f2fc66aef4f3657d485b62aabd86aa4f.jpg', '2026-01-21 13:53:28', '2026-01-21 13:53:28'),
+(20, 8, 'Pico-Balla', NULL, 6, 'data/uploads/snacks/59844850c298441ae256965bbbd9c6db.jpg', '2026-01-21 13:53:56', '2026-01-21 13:53:56'),
+(21, 8, 'Pico-Balla Sauer', NULL, 6, 'data/uploads/snacks/2a0cc41b1cb17a4ba0049c2a0261e5de.jpg', '2026-01-21 13:56:04', '2026-01-21 13:56:04'),
+(22, 1, 'Cool Ranch', NULL, 1, 'data/uploads/snacks/a4d8347ac6fb44bb3810d73343676426.png', '2026-01-21 13:56:51', '2026-01-21 13:56:51');
 
 -- --------------------------------------------------------
 
@@ -137,7 +161,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password_hash`, `avatar_path`, `is_admin`, `is_active`, `created_at`) VALUES
-(1, 'r', '$2y$10$mN5tWG28it2URe/CguRzMe0SSrODDBAxnl3B7Or7gKT8fIWAOUXxO', 'data/images/profilePicPlaceholder.png', 0, 1, '2026-01-20 20:36:58');
+(1, 'r', '$2y$10$mN5tWG28it2URe/CguRzMe0SSrODDBAxnl3B7Or7gKT8fIWAOUXxO', 'data/images/profilePicPlaceholder.png', 1, 1, '2026-01-20 20:36:58'),
+(2, '11', '$2y$10$Eb45dJ.nIV2fyCexFITWHeKjnmKY2njsY5SI1RKeQXphfCZu2H4hG', 'data/images/profilePicPlaceholder.png', 0, 1, '2026-01-20 21:30:00');
 
 --
 -- Indexes for dumped tables
@@ -201,13 +226,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -225,13 +250,13 @@ ALTER TABLE `review_comments`
 -- AUTO_INCREMENT for table `snacks`
 --
 ALTER TABLE `snacks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

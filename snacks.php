@@ -1,5 +1,7 @@
 <?php
 require_once "include/config.php";
+include "include/header.php";
+include "include/errorSucessPopups.php";
 
 $pdo = db();
 
@@ -19,17 +21,10 @@ $stmt = $pdo->query("
 ");
 $rows = $stmt->fetchAll();
 
-include __DIR__ . "/include/header.php";
+
 ?>
 
 <body class="d-flex flex-column min-vh-100">
-
-<?php if (isset($_SESSION['success'])): ?>
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <?= e($_SESSION['success']) ?>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-<?php unset($_SESSION['success']); endif; ?>
 
 <div class="d-flex flex-column align-items-center">
     <div class="container-lg row row-2 justify-content-center">
