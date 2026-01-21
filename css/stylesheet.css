@@ -1,0 +1,34 @@
+/* Override Bootstrap colors */
+:root {
+    --bs-primary: #ff7e5f;
+    --bs-secondary: #feb47b;
+    --bs-dark: #222222;
+    --bs-light: #f7f7f7;
+}
+
+/* Default primary button (override Bootstrap blue) */
+.btn-primary {
+    background: linear-gradient(135deg, #ff9a76, #ff6b6b);
+    border: none;
+    color: white;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+
+/* Hover effect */
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff6b6b, #ff9a76);
+    transform: translateY(-2px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.2);
+    filter: brightness(1.15);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate__fadeIn {
+    animation: fadeIn 1.2s ease-out;
+}
+

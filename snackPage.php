@@ -97,14 +97,12 @@ $user = current_user();
                 <?php if ($user): ?>
                     <div class="d-flex space">
                         <a href="review.php?id=<?= $snack['id'] ?>" class="btn btn-lg btn-primary me-4">Write Review</a>
-                        <a href="#" class="btn btn-lg btn-primary">Eaten +1</a>
                     </div>
                 <?php else: ?>
                     <div class="d-flex space">
                         <a href="review.php?id=<?= $snack['id'] ?>" class="btn btn-lg btn-secondary me-4 disabled">Write Review</a>
-                        <a href="#" class="btn btn-lg btn-secondary disabled">Eaten +1</a>
                     </div>
-                    <p class="my-2 fw-bold">Login or create account to review/track</p>
+                    <p class="my-2 fw-bold">Login or create account to review</p>
                 <?php endif; ?>
             </div>
 
