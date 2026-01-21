@@ -22,7 +22,7 @@ array_unshift($recentPages, $id);
 $recentPages = array_slice($recentPages, 0, 4);
 setcookie('recentPages', json_encode($recentPages));
 
-
+//snack
 $stmt = $pdo->prepare("
     SELECT
         s.id,
@@ -44,11 +44,11 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([':id' => $id]);
 $snack = $stmt->fetch();
-
 if (!$snack) {
     redirect("snacks.php");
 }
 
+//reviews
 $stmt = $pdo->prepare("
     SELECT
         r.id,
@@ -64,8 +64,8 @@ $stmt = $pdo->prepare("
     ORDER BY r.created_at DESC
 ");
 $stmt->execute([':id' => $id]);
-
 $reviews = db_fetch_all("SELECT * FROM reviews WHERE snack_id = :id", ['id' => $id]);
+
 $user = current_user();
 ?>
 
