@@ -25,7 +25,6 @@
     </div>
 
   <?php else: ?>
-    <!-- Dropdown-Button-->
     <div class="position-absolute top-0 end-0 p-2">
       <button class="btn btn-light btn-sm" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">...</button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
