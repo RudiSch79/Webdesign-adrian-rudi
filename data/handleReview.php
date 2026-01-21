@@ -57,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $ext = $allowed[$mime];
 
-        // Unique filename
         $filename = bin2hex(random_bytes(16)) . "." . $ext;
         $destFs   = $uploadDir . "/" . $filename;
 
