@@ -22,7 +22,7 @@ $username = $isLoggedIn ? $user["username"] : "";
 
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="./snacks.php">Reviews</a>
+          <a class="nav-link" href="./snacks.php">All Snacks</a>
         </li>
       </ul>
 

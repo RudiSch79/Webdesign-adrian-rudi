@@ -30,7 +30,7 @@
       <button class="btn btn-light btn-sm" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">...</button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <?php if ($review["user_id"] === $sessionUser["id"]): ?>
-            <li><a class="dropdown-item" href="snackPage.php?id=<?= $id ?>&edit=<?= $review['id'] ?>#review-<?= $review['id'] ?>">Edit</a></li>
+            <li><a class="dropdown-item" href="snackPage.php?id=<?= $review['snack_id'] ?>&edit=<?= $review['id'] ?>#review-<?= $review['id'] ?>">Edit</a></li>
             <li>
               <form method="POST" action="data/handleReview.php" style="display:inline;">
                 <input type="hidden" name="snack_id" value="<?= $snackId ?>">
