@@ -100,8 +100,7 @@ include "include/header.php";
                     <label for="name" class="form-label">
                         <?= $type === "brand" ? "Brand name" : "Category name" ?>
                     </label>
-                    <input name="name" id="name" class="form-control" required maxlength="120"
-                           value="<?= e($_POST["name"]) ?>">
+                    <input name="name" id="name" class="form-control" required maxlength="120"value="<?= e($_POST["name"] ?? "") ?>">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit suggestion</button>
