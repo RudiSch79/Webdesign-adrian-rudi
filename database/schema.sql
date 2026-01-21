@@ -127,7 +127,6 @@ INSERT INTO `snacks` (`id`, `brand_id`, `name`, `description`, `categorie_id`, `
 (20, 8, 'Pico-Balla', NULL, 6, 'data/uploads/snacks/59844850c298441ae256965bbbd9c6db.jpg', '2026-01-21 13:53:56', '2026-01-21 13:53:56'),
 (21, 8, 'Pico-Balla Sauer', NULL, 6, 'data/uploads/snacks/2a0cc41b1cb17a4ba0049c2a0261e5de.jpg', '2026-01-21 13:56:04', '2026-01-21 13:56:04'),
 (22, 1, 'Cool Ranch', NULL, 1, 'data/uploads/snacks/a4d8347ac6fb44bb3810d73343676426.png', '2026-01-21 13:56:51', '2026-01-21 13:56:51'),
-(23, 8, 'fasz', NULL, 6, 'data/uploads/snacks/0251059deaa014cef5a3109675ae089e.jpg', '2026-01-21 17:50:51', '2026-01-21 17:50:51');
 
 -- --------------------------------------------------------
 
